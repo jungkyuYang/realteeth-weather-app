@@ -48,3 +48,19 @@ coverage/
 
 # 9. Storybook 특정 파일
 .test-results/
+
+# 10. Vite & 프론트엔드 도구 관련
+.vite/
+.turbo/
+.vercel/
+.netlify/
+
+# 11. 시스템 파일 (운영체제 간 협업 시)
+Icon?
+ehthumbs.db
+desktop.ini
+
+# 12. 라이브러리 특정 캐시
+.eslintcache
+.stylelintcache
+.prettiercache

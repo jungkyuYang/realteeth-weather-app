@@ -1,0 +1,43 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+@import 'tailwindcss';
+
+@theme {
+  --color-brand-primary: #3b82f6; /* 날씨 앱 메인 컬러 (파랑) */
+  --color-brand-secondary: #10b981; /* 포인트 컬러 (초록) */
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+
+  --font-sans:
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue',
+    'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', sans-serif;
+}
+
+/* 2. 전역 베이스 스타일 및 REM 세팅 */
+@layer base {
+  html {
+    font-size: 62.5%; /* 1rem = 10px 세팅 */
+    scroll-behavior: smooth;
+    font-display: swap;
+  }
+
+  body {
+    @apply text-base antialiased transition-colors duration-300;
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+}

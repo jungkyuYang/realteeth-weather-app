@@ -1,0 +1,50 @@
+# 1. 의존성 및 빌드 결과물
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# 2. 에디터 및 시스템 파일
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+thumbs.db
+
+# 3. 로그 파일
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+eslint-debug.log*
+
+# 4. 환경 변수 (보안 중요!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 5. Husky 관련 (필요 시)
+# .husky 폴더 자체는 공유해야 하지만, _/ 폴더는 무시해야 합니다.
+.husky/_
+
+# 6. 기타 임시 파일
+.eslintcache
+*storybook.log
+storybook-static
+
+# 7. 테스트 결과 및 리포트 (Playwright & Vitest)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache
+coverage/
+*.lcov
+
+# 8. 타입스크립트 및 빌드 캐시
+*.tsbuildinfo
+.npm
+.cache
+
+# 9. Storybook 특정 파일
+.test-results/

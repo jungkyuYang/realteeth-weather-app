@@ -1,0 +1,68 @@
+name: Auto Label and Assign
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+jobs:
+  automation:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      issues: write
+
+    steps:
+      - name: Smart Labeler and Assignee
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const title = pr.title;
+            const prNumber = pr.number;
+
+            console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            console.log(`📝 PR Title: ${title}`);
+
+            // 1. PR 제목에서 타입 추출 (예: "feat: 기능" -> "feat")
+            const typeMatch = title.match(/^([a-zA-Z]+)(\s*):/);
+            if (!typeMatch) {
+              console.log("⚠️ No type prefix found in PR title.");
+              return;
+            }
+            const type = typeMatch[1].toLowerCase();
+            console.log(`🔍 Search Keyword: ${type}`);
+
+            // 2. 레포지토리에 실제 등록된 라벨 목록 가져오기
+            const { data: repoLabels } = await github.rest.issues.listLabelsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            // 3. 추출한 키워드(type)가 포함된 라벨 찾기
+            // 예: type이 'feat'이면 'feat 🚀'나 'feature' 등을 찾음
+            const matchedLabel = repoLabels.find(l => 
+              l.name.toLowerCase().includes(type)
+            );
+
+            // 4. 담당자 할당 (PR 생성자)
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              assignees: [pr.user.login]
+            });
+
+            // 5. 매칭된 라벨이 있으면 부착
+            if (matchedLabel) {
+              console.log(`✅ Found Matching Label: ${matchedLabel.name}`);
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                labels: [matchedLabel.name]
+              });
+            } else {
+              console.log(`❌ No label in repo matches the keyword: ${type}`);
+            }
+            console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

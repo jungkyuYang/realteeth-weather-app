@@ -17,6 +17,8 @@ export const useGeolocation = () => {
     staleTime: FIVE_MINUTES,
     gcTime: THIRTY_MINUTES,
     retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: 'always',
   });
 
   useEffect(() => {

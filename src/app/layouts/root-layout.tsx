@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router';
+import { Toaster } from '@/shared/ui/sonner';
 
 export const RootLayout = () => {
   return (
@@ -16,6 +17,7 @@ export const RootLayout = () => {
       </main>
 
       <footer className="py-8 text-center text-slate-400 text-sm">© 2026 Weather Cast. All rights reserved.</footer>
+      <Toaster />
     </div>
   );
 };

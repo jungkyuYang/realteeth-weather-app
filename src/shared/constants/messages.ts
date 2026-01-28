@@ -7,7 +7,6 @@ export const ERROR_MESSAGES = {
     UNKNOWN: '위치 정보를 가져오는 데 실패했습니다.',
   },
   WEATHER: {
-    FETCH_FAILED: '날씨 정보를 가져오는 데 실패했습니다.',
-    NOT_FOUND: '해당 장소의 정보가 제공되지 않습니다.',
+    INVALID_COORDS: '유효한 좌표 정보가 없습니다.',
   },
 } as const;

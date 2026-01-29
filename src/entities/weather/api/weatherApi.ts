@@ -1,5 +1,4 @@
 import { createBaseClient } from '@/shared/api/baseClient';
-import { ERROR_MESSAGES } from '@/shared/constants/messages';
 import { type WeatherData, type WeatherResponse } from '../model/types';
 
 const weatherClient = createBaseClient({
@@ -11,6 +10,9 @@ const weatherClient = createBaseClient({
   },
 });
 
+/**
+ * 외부 API의 복잡한 구조를 앱의 순수 타입(WeatherData)으로 변환
+ */
 const mapWeatherResponse = (data: WeatherResponse): WeatherData => {
   const weatherDetail = data.weather?.[0];
 
@@ -27,14 +29,12 @@ const mapWeatherResponse = (data: WeatherResponse): WeatherData => {
   };
 };
 
-export const fetchWeather = async (lat?: number, lon?: number): Promise<WeatherData> => {
-  if (lat === undefined || lon === undefined || lat === null || lon === null) {
-    throw new Error(ERROR_MESSAGES.WEATHER.INVALID_COORDS);
-  }
+export const weatherApi = {
+  fetchByCoords: async (lat: number, lon: number): Promise<WeatherData> => {
+    const { data } = await weatherClient.get<WeatherResponse>('/weather', {
+      params: { lat, lon },
+    });
 
-  const { data } = await weatherClient.get<WeatherResponse>('/weather', {
-    params: { lat, lon },
-  });
-
-  return mapWeatherResponse(data);
+    return mapWeatherResponse(data);
+  },
 };

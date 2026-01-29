@@ -1,19 +1,20 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { fetchWeather } from '../api/weatherApi';
+import { weatherApi } from '../api/weatherApi';
 import { weatherKeys } from './weatherKeys';
+import { isValidCoords } from './validation';
+import { type WeatherData } from './types';
 
-const FIVE_MINUTE = 1000 * 60 * 5;
+const FIVE_MINUTES = 1000 * 60 * 5;
 const THIRTY_MINUTES = 1000 * 60 * 30;
 
-export const useWeather = (lat?: number, lon?: number) => {
-  const query = useQuery({
-    queryKey: weatherKeys.detail(lat, lon),
-    queryFn: () => fetchWeather(lat, lon),
-    enabled: lat !== undefined && lon !== undefined,
+export const useWeather = (lat?: number | null, lon?: number | null) => {
+  const query = useQuery<WeatherData, Error>({
+    queryKey: weatherKeys.detail(lat!, lon!),
+    queryFn: () => weatherApi.fetchByCoords(lat!, lon!),
+    enabled: isValidCoords(lat, lon),
     placeholderData: keepPreviousData,
-    staleTime: FIVE_MINUTE,
+    staleTime: FIVE_MINUTES,
     gcTime: THIRTY_MINUTES,
-    // 날씨 앱 특성상 사용자가 앱을 다시 켰을 때(Focus) 최신 데이터 제공
     refetchOnWindowFocus: true,
   });
 

@@ -1,18 +1,21 @@
-import { useEffect } from 'react'; // 추가
+import { useEffect } from 'react';
 import { useQuery, keepPreviousData, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
-import { fetchCurrentLocation } from '../api/locationApi';
+import { locationApi } from '../api/locationApi';
 import { locationKeys } from './locationKeys';
+import { isGeolocationSupported } from './validation';
 import { type LocationData } from './types';
+import { ERROR_MESSAGES } from '@/shared/constants/messages';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 const THIRTY_MINUTES = 1000 * 60 * 30;
 
-export const useGeolocation = () => {
+export const useLocation = () => {
   const queryClient = useQueryClient();
 
   const query = useQuery<LocationData, Error>({
     queryKey: locationKeys.current(),
-    queryFn: fetchCurrentLocation,
+    queryFn: () => locationApi.fetchCurrent(),
+    enabled: isGeolocationSupported(),
     placeholderData: keepPreviousData,
     staleTime: FIVE_MINUTES,
     gcTime: THIRTY_MINUTES,
@@ -50,8 +53,9 @@ export const useGeolocation = () => {
   return {
     lat: query.data?.lat ?? null,
     lon: query.data?.lon ?? null,
-    isLoading: query.isLoading || query.isFetching,
-    error: query.error ? query.error.message : null,
+    isLoading: query.isPending,
+    isRefreshing: query.isFetching && !query.isPending,
+    error: !isGeolocationSupported() ? ERROR_MESSAGES.LOCATION.NOT_SUPPORTED : (query.error?.message ?? null),
     refresh: () => query.refetch(),
   };
 };

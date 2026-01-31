@@ -1,13 +1,20 @@
 import { createBaseClient } from '@/shared/api/baseClient';
-import { ERROR_MESSAGES } from '@/shared/constants/messages';
-import { type WeatherData, type WeatherResponse } from '../model/types';
+import {
+  type WeatherData,
+  type WeatherResponse,
+  type SearchLocationData,
+  type SearchLocationResponse,
+} from '../model/types';
 
-const weatherClient = createBaseClient({
-  baseURL: import.meta.env.VITE_WEATHER_BASE_URL,
+const ENDPOINTS = {
+  WEATHER: '/data/2.5/weather',
+  GEO: '/geo/1.0/direct',
+} as const;
+
+const openWeatherClient = createBaseClient({
+  baseURL: import.meta.env.VITE_OPENWEATHER_BASE_URL,
   params: {
     appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
-    units: 'metric',
-    lang: 'kr',
   },
 });
 
@@ -27,14 +34,36 @@ const mapWeatherResponse = (data: WeatherResponse): WeatherData => {
   };
 };
 
-export const fetchWeather = async (lat?: number, lon?: number): Promise<WeatherData> => {
-  if (lat === undefined || lon === undefined || lat === null || lon === null) {
-    throw new Error(ERROR_MESSAGES.WEATHER.INVALID_COORDS);
-  }
+const mapSearchResponse = (data: SearchLocationResponse[]): SearchLocationData[] => {
+  return data.map((item) => ({
+    id: `${item.lat}-${item.lon}`,
+    name: item.local_names?.ko || item.name, // 한국어 이름 있으면 사용, 없으면 기본 이름
+    lat: item.lat,
+    lon: item.lon,
+    country: item.country,
+    state: item.state,
+  }));
+};
 
-  const { data } = await weatherClient.get<WeatherResponse>('/weather', {
-    params: { lat, lon },
-  });
+export const weatherApi = {
+  fetchByCoords: async (lat: number, lon: number): Promise<WeatherData> => {
+    const { data } = await openWeatherClient.get<WeatherResponse>(ENDPOINTS.WEATHER, {
+      params: {
+        lat,
+        lon,
+        units: 'metric',
+        lang: 'kr',
+      },
+    });
+    return mapWeatherResponse(data);
+  },
 
-  return mapWeatherResponse(data);
+  searchLocations: async (query: string): Promise<SearchLocationData[]> => {
+    const { data } = await openWeatherClient.get<SearchLocationResponse[]>(ENDPOINTS.GEO, {
+      params: {
+        q: query,
+      },
+    });
+    return mapSearchResponse(data);
+  },
 };

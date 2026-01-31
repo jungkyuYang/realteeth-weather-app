@@ -8,6 +8,7 @@ import { ERROR_MESSAGES } from '@/shared/constants/messages';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
 const THIRTY_MINUTES = 1000 * 60 * 30;
+const SESSION_STORAGE_KEY = 'weather_app_last_location_v1';
 
 export const useLocation = () => {
   const queryClient = useQueryClient();
@@ -22,7 +23,21 @@ export const useLocation = () => {
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
+    initialData: () => {
+      try {
+        const saved = sessionStorage.getItem(SESSION_STORAGE_KEY);
+        return saved ? JSON.parse(saved) : undefined;
+      } catch {
+        return undefined;
+      }
+    },
   });
+
+  useEffect(() => {
+    if (query.data) {
+      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(query.data));
+    }
+  }, [query.data]);
 
   useEffect(() => {
     let permissionStatus: PermissionStatus | null = null;
@@ -39,7 +54,7 @@ export const useLocation = () => {
           }
         };
       } catch (e) {
-        console.warn('Geolocation permission query failed:', e);
+        console.warn(ERROR_MESSAGES.LOCATION.PERMISSION_QUERY_FAILED, e);
       }
     };
 

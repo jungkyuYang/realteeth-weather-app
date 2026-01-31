@@ -1,6 +1,3 @@
-/**
- * 날씨 상태(비, 눈, 맑음 등)를 나타내는 타입
- */
 export type WeatherStatus =
   | 'Clear'
   | 'Clouds'
@@ -11,9 +8,6 @@ export type WeatherStatus =
   | 'Atmosphere'
   | (string & {});
 
-/**
- * 우리 앱에서 실제로 사용할 정제된 날씨 데이터 인터페이스
- */
 export interface WeatherData {
   temp: number; // 현재 온도
   tempMin: number; // 최저 온도
@@ -44,4 +38,26 @@ export interface WeatherResponse {
   }>;
   name: string;
   dt: number;
+}
+
+export interface SearchLocationData {
+  id: string; // 리스트 key값으로 활용
+  name: string; // UI에 표시될 지역명
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string; // 상세 주소 텍스트
+}
+
+/**
+ * API 응답 원본 타입 (Geocoding API)
+ * API에서 주는 가공되지 않은 형태를 정의합니다.
+ */
+export interface SearchLocationResponse {
+  name: string;
+  local_names?: Record<string, string>;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
 }

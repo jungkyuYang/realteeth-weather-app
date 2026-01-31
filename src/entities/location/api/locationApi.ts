@@ -10,14 +10,21 @@ const GEOLOCATION_CONFIG: PositionOptions = {
   maximumAge: ONE_MINUTE,
 };
 
+/**
+ * 좌표를 소수점 4자리로 반올림하여 정규화합니다.
+ * (약 11m의 오차를 허용하여 캐시 효율을 높입니다.)
+ */
+export const roundCoordinate = (coord: number): number => {
+  return Number(coord.toFixed(4));
+};
 export const locationApi = {
   fetchCurrent: (): Promise<LocationData> => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           resolve({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
+            lat: roundCoordinate(position.coords.latitude),
+            lon: roundCoordinate(position.coords.longitude),
           });
         },
         (error) => {

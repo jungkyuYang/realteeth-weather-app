@@ -55,6 +55,7 @@ export const useLocation = () => {
     lon: query.data?.lon ?? null,
     isLoading: query.isPending,
     isRefreshing: query.isFetching && !query.isPending,
+    isError: query.isError || !isGeolocationSupported(),
     error: !isGeolocationSupported() ? ERROR_MESSAGES.LOCATION.NOT_SUPPORTED : (query.error?.message ?? null),
     refresh: () => query.refetch(),
   };

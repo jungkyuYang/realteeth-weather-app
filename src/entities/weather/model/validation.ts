@@ -19,3 +19,16 @@ export const isValidCoords = (lat?: number | null, lon?: number | null): boolean
 
   return isLatValid && isLonValid;
 };
+
+export const sanitizeQuery = (query: string): string => {
+  // 예: 한글, 영문, 숫자, 공백, 하이픈(-), 쉼표(,) 정도만 허용하고 나머지는 제거
+  // (지명 검색에 필요한 최소한의 문자만 남김)
+  return query.replace(/[^a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s\-,]/g, '').trim();
+};
+
+/**
+ * 최종 유효성 검사
+ */
+export const isValidSearchQuery = (query: string): boolean => {
+  return query.length > 0;
+};

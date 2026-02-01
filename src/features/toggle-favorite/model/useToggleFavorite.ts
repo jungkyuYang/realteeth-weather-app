@@ -1,5 +1,5 @@
 import { type LocationFavorite } from '@/entities/location-favorite/model/types';
-import { type SearchLocationData } from '@/entities/weather/model/types';
+import { type BaseLocation } from '@/shared/types/location';
 import { useFavorite } from '@/entities/location-favorite/model/useLocationFavorite';
 import { TOGGLE_FAVORITE_CONSTANTS } from './constants';
 import { toast } from '@/shared/lib/store/useToastStore';
@@ -14,7 +14,7 @@ export const useToggleFavorite = () => {
     await remove(id);
   };
 
-  const toggleFavorite = async (loc: SearchLocationData) => {
+  const toggleFavorite = async (loc: BaseLocation) => {
     const existing = favorites.find(
       (fav: LocationFavorite) => fav.payload.lat === loc.lat && fav.payload.lon === loc.lon,
     );
@@ -33,10 +33,10 @@ export const useToggleFavorite = () => {
         order: favorites.length,
         metadata: { createdAt: Date.now(), updatedAt: Date.now(), isActive: true },
         payload: {
+          ...loc,
           lat: Number(loc.lat),
           lon: Number(loc.lon),
           name: loc.name,
-          nickname: loc.name,
         },
       };
 

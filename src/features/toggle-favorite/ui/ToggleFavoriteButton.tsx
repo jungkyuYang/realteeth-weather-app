@@ -1,11 +1,11 @@
 import { Button } from '@/shared/ui/button';
 import { Star } from 'lucide-react';
 import { useToggleFavorite } from '../model/useToggleFavorite';
-import { type SearchLocationData } from '@/entities/weather/model/types';
+import { type BaseLocation } from '@/shared/types/location';
 import { cn } from '@/shared/lib/utils';
 
 interface Props {
-  location: SearchLocationData;
+  location: BaseLocation;
   className?: string;
   showText?: boolean;
 }

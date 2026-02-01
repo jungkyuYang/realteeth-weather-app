@@ -8,17 +8,6 @@
   --color-toss-blue: #3182f6;
   --color-toss-blue-hover: #1b64da;
   --color-toss-bg: #ffffff;
-  --color-toss-grey: #f2f4f6;
-  --color-toss-text-sub: #4e5968;
-
-
-  /* 💡 텍스트 컬러 공용 변수 등록 */
-  --color-toss-text-main: #191f28; /* 아주 어두운 회색 (토스 기본) */
-  --color-toss-text-sub: #4e5968;  /* 중간 회색 (설명문용) */
-  
-  /* 💡 기존 brand-primary를 토스 블루로 연결 */
-  --color-brand-primary: var(--color-toss-blue);
-  --color-brand-secondary: #10b981; /* 포인트 컬러 (초록) */
 
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
@@ -30,7 +19,6 @@
     'Segoe UI Symbol', sans-serif;
 }
 
-/* 2. 전역 베이스 스타일 및 REM 세팅 */
 @layer base {
   html {
     font-size: 62.5%; /* 1rem = 10px 세팅 */
@@ -49,84 +37,69 @@
 }
 
 :root {
+  /* 라이트 모드 기본 */
   --background: oklch(1 0 0);
-  --foreground:#191f28;
-  --radius: 1.4rem; /* 토스 특유의 큼직하고 둥근 느낌 (14px) */
+  --foreground: #191f28;
+  --radius: 1.4rem;
+
+  /* 💡 토스 전용 변수 (라이트) */
+  --toss-text-main: #191f28;
+  --toss-text-sub: #4e5968;
+  --toss-grey: #f2f4f6;
+  --favorite: #facc15;          /* yellow-400 계열 */
+  --favorite-bg: #fefce8;       /* 아주 연한 노란색 */
+  
+  /* shadcn/ui 기반 변수들 */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: 221.2 93.2% 58.8%; /* 토스 블루 */
+  --primary: 221.2 93.2% 58.8%;
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: #f2f4f6; /* 토스 회색 배경 */
-  --muted-foreground: #4e5968; /* 토스 서브 텍스트 */
+  --muted: #f2f4f6;
+  --muted-foreground: #4e5968;
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-  --toss-blue: #3182f6;
-  --toss-blue-hover: #1b64da;
 }
 
 .dark {
-  --background: #191f28; /* 다크 모드 배경색 */
-  --foreground: #f2f4f6; /* 다크 모드 기본 텍스트 (밝은색) */
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: 221.2 93.2% 58.8%; /* 다크모드에서도 블루는 유지 */
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
+  /* 다크 모드 기본 */
+  --background: #191f28; 
+  --foreground: #f2f4f6;
+
+  /* 💡 토스 전용 변수 재정의 (다크) */
+  --toss-text-main: #f2f4f6;   /* 글자색 반전 */
+  --toss-text-sub: #9ca3af;    /* 서브 텍스트 명도 조절 */
+  --toss-grey: #2c323b;        /* 어두운 배경용 회색 */
+
+  --favorite: #facc15;
+  --favorite-bg: rgba(250, 204, 21, 0.1); /* 다크모드에선 반투명 노란색 */
+
+  /* shadcn/ui 다크 대응 */
+  --card: #222933;             /* 카드를 배경보다 살짝 밝게 */
+  --card-foreground: #f2f4f6;
+  --popover: #222933;
+  --popover-foreground: #f2f4f6;
+  --secondary: #2c323b;
+  --secondary-foreground: #f2f4f6;
   --muted: #2c323b;
   --muted-foreground: #9ca3af;
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --border: rgba(255, 255, 255, 0.1); /* 테두리를 반투명 흰색으로 */
+  --input: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* 💡 변수를 Tailwind 클래스로 연결 */
+  --color-toss-text-main: var(--toss-text-main);
+  --color-toss-text-sub: var(--toss-text-sub);
+  --color-toss-grey: var(--toss-grey);
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -145,19 +118,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --color-favorite: var(--favorite);
+  --color-favorite-bg: var(--favorite-bg);
 }
 
 @layer base {

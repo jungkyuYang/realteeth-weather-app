@@ -8,7 +8,7 @@ export const useFavorite = () => {
   const queryClient = useQueryClient();
   const queryKey = locationFavoriteKeys.lists();
 
-  const query = useQuery({
+  const query = useQuery<LocationFavorite[]>({
     queryKey,
     queryFn: () => locationFavoriteApi.get(),
     staleTime: Infinity,

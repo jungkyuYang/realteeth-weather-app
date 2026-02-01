@@ -8,22 +8,63 @@ export type WeatherStatus =
   | 'Atmosphere'
   | (string & {});
 
+/** *  시간대별 기온을 위한 타입 추가
+ */
+export interface HourlyWeather {
+  dt: number; // 시간 (Unix timestamp)
+  temp: number; // 해당 시간 기온
+  icon: string; // 날씨 아이콘
+  description: string; // 날씨 설명
+}
+
 export interface WeatherData {
-  temp: number; // 현재 온도
-  tempMin: number; // 최저 온도
-  tempMax: number; // 최고 온도
-  humidity: number; // 습도
-  description: string; // 날씨 설명 (예: '가벼운 비')
-  status: WeatherStatus; // 날씨 상태 코드
-  icon: string; // 날씨 아이콘 ID
-  cityName: string; // 도시 이름
-  dt: number; // 데이터 업데이트 시간 (Unix timestamp)
+  temp: number;
+  tempMin: number;
+  tempMax: number;
+  humidity: number;
+  description: string;
+  status: WeatherStatus;
+  icon: string;
+  cityName: string;
+  dt: number;
+  hourly?: HourlyWeather[];
 }
 
 /**
- * API 응답 원본 타입 (OpenWeatherMap 예시)
- * API에서 주는 가공되지 않은 형태를 정의합니다.
+ * API 응답 원본 타입 (OpenWeatherMap Forecast API 기준)
+ * 3시간 단위의 예보 데이터를 포함하는 구조입니다.
  */
+export interface WeatherForecastResponse {
+  list: Array<{
+    dt: number;
+    main: {
+      temp: number;
+      temp_min: number;
+      temp_max: number;
+      humidity: number;
+    };
+    weather: Array<{
+      main: WeatherStatus;
+      description: string;
+      icon: string;
+    }>;
+  }>;
+  city: {
+    name: string;
+  };
+}
+
+// 기존 SearchLocationResponse는 그대로 유지
+export interface SearchLocationResponse {
+  name: string;
+  local_names?: Record<string, string>;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
+}
+
+// 기존 WeatherResponse (현재 날씨 API용)도 유지
 export interface WeatherResponse {
   main: {
     temp: number;
@@ -38,26 +79,4 @@ export interface WeatherResponse {
   }>;
   name: string;
   dt: number;
-}
-
-export interface SearchLocationData {
-  id: string; // 리스트 key값으로 활용
-  name: string; // UI에 표시될 지역명
-  lat: number;
-  lon: number;
-  country: string;
-  state?: string; // 상세 주소 텍스트
-}
-
-/**
- * API 응답 원본 타입 (Geocoding API)
- * API에서 주는 가공되지 않은 형태를 정의합니다.
- */
-export interface SearchLocationResponse {
-  name: string;
-  local_names?: Record<string, string>;
-  lat: number;
-  lon: number;
-  country: string;
-  state?: string;
 }

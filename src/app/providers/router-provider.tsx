@@ -16,6 +16,10 @@ const router = createBrowserRouter([
         path: 'detail/:id',
         element: <div className="p-4">Detail Page (준비 중)</div>, // <DetailPage />
       },
+      // {
+      //   path: 'test',
+      //   element: <TestPage />,
+      // },
     ],
   },
   {

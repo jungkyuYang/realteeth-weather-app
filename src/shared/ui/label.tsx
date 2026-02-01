@@ -1,0 +1,21 @@
+import * as React from 'react';
+import * as LabelPrimitive from '@radix-ui/react-label';
+
+import { cn } from '@/shared/lib/utils';
+
+function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
+  return (
+    <LabelPrimitive.Root
+      data-slot="label"
+      className={cn(
+        'flex items-center gap-[0.8rem] text-[1.5rem] leading-none font-semibold select-none transition-colors',
+        'group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+        'text-toss-text-main',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { Label };

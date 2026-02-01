@@ -1,7 +1,7 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { weatherApi } from '../api/weatherApi';
 import { weatherKeys } from './weatherKeys';
-import { type SearchLocationData } from './types';
+import { type BaseLocation } from '@/shared/types/location';
 import { sanitizeQuery, isValidSearchQuery } from './validation';
 import { ERROR_MESSAGES } from '@/shared/constants/messages';
 
@@ -11,7 +11,7 @@ export const useWeatherSearch = (query: string) => {
   const sanitizedQuery = sanitizeQuery(query);
   const isEnabled = isValidSearchQuery(sanitizedQuery);
 
-  const searchQuery = useQuery<SearchLocationData[], Error>({
+  const searchQuery = useQuery<BaseLocation[], Error>({
     queryKey: weatherKeys.search(sanitizedQuery),
     queryFn: () => weatherApi.searchLocations(sanitizedQuery),
     enabled: isEnabled,

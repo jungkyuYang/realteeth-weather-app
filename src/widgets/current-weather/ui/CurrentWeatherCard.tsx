@@ -123,7 +123,7 @@ export const CurrentWeatherCard = ({ lat, lon }: { lat: number; lon: number }) =
           <h3 className="text-toss-header font-bold mb-4 text-toss-text-main px-2">{CONFIG.TEXT.SECTION_TITLE}</h3>
 
           <div
-            className="flex gap-10 overflow-x-auto no-scrollbar pb-4 px-2 scroll-smooth"
+            className="flex gap-10 overflow-x-auto pb-4 px-4 scroll-smooth"
             style={{
               WebkitMaskImage: 'linear-gradient(to right, black 85%, transparent 100%)',
               maskImage: 'linear-gradient(to right, black 85%, transparent 100%)',

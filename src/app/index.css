@@ -151,8 +151,8 @@
   /* 전역 커스텀 스크롤바 추가 */
   /* 1. 기본 브라우저 스크롤바 스타일 (Webkit 기반) */
   *::-webkit-scrollbar {
-    width: 0.6rem;  /* 세로 스크롤 두께 */
-    height: 0.6rem; /* 가로 스크롤 두께 */
+    width: 1rem;  /* 세로 스크롤 두께 */
+    height: 1rem; /* 가로 스크롤 두께 */
   }
 
   *::-webkit-scrollbar-track {

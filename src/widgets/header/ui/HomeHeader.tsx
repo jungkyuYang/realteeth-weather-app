@@ -2,7 +2,17 @@ import { MapPin, X, LocateFixed, Locate } from 'lucide-react';
 import { type BaseLocation } from '@/shared/types/location';
 import { cn } from '@/shared/lib/utils';
 
-// FSD: 인터페이스 명칭 구체화
+/**
+ * 💡 1. 상수는 컴포넌트 외부 최상단으로 분리
+ * detail 페이지와 형식을 맞추어 유지보수성을 높입니다.
+ */
+const UI_TEXT = {
+  DEFAULT_NAME: '서울',
+  GEO_LABEL: '내 주변',
+  BADGE: '기본 위치',
+  GPS_BTN: '현위치',
+} as const;
+
 interface HomeHeaderProps {
   selectedLocation: BaseLocation | null;
   geoCoords: { lat: number | null; lon: number | null };
@@ -10,68 +20,65 @@ interface HomeHeaderProps {
   onActivateGPS: () => void;
 }
 
-// 텍스트 상수는 별도로 분리하면 i18n(다국어) 대응
-const LABELS = {
-  DEFAULT_NAME: '서울',
-  GEO_LABEL: '내 주변',
-  BADGE: '기본 위치',
-  GPS_BTN: '현위치',
-};
-
+/**
+ * 💡 2. 홈 전용 헤더 위젯
+ * LocationDetailHeader와 높이(h-24) 및 정렬 방식을 통일합니다.
+ */
 export const HomeHeader = ({ selectedLocation, geoCoords, onReset, onActivateGPS }: HomeHeaderProps) => {
   const isSearching = !!selectedLocation;
   const hasGeo = !!(geoCoords.lat && geoCoords.lon);
   const isDefault = !selectedLocation && !hasGeo;
 
-  const locationName = selectedLocation?.name ?? (hasGeo ? LABELS.GEO_LABEL : LABELS.DEFAULT_NAME);
+  const locationName = selectedLocation?.name ?? (hasGeo ? UI_TEXT.GEO_LABEL : UI_TEXT.DEFAULT_NAME);
 
   return (
-    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md px-6 py-4 flex items-center justify-between ">
-      <div className="flex items-center gap-2 overflow-hidden">
-        {/* 💡 text-toss-blue 유틸리티 활용 */}
-        <MapPin className={cn('size-5 shrink-0', isSearching ? 'text-toss-blue' : 'text-toss-text-sub')} />
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md px-6 h-24 flex items-center justify-between border-b border-toss-grey/10 transition-all">
+      {/* 왼쪽: 위치 정보 영역 */}
+      <div className="flex items-center gap-2 overflow-hidden mr-4">
+        <div className={cn('p-2 rounded-xl transition-colors', isSearching ? 'bg-toss-blue/10' : 'bg-toss-grey/10')}>
+          <MapPin size={20} className={isSearching ? 'text-toss-blue' : 'text-toss-text-sub'} />
+        </div>
 
         <div className="flex items-center gap-2 overflow-hidden">
-          <div className="flex items-center gap-1.5 overflow-hidden">
-            <span
-              className={cn(
-                'text-toss-header font-bold truncate transition-colors',
-                isSearching ? 'text-toss-blue' : 'text-toss-text-main',
-              )}
-            >
-              {locationName}
-            </span>
-
-            {isDefault && (
-              <span className="px-2 py-0.5 text-toss-badge font-medium bg-toss-grey text-toss-text-sub rounded-md shrink-0">
-                {LABELS.BADGE}
-              </span>
+          <h2
+            className={cn(
+              'text-[1.8rem] font-bold truncate transition-colors',
+              isSearching ? 'text-toss-blue' : 'text-toss-text-main',
             )}
-          </div>
+          >
+            {locationName}
+          </h2>
+
+          {isDefault && (
+            <span className="px-2 py-0.5 text-[1.2rem] font-semibold bg-toss-grey/20 text-toss-text-sub rounded-md shrink-0">
+              {UI_TEXT.BADGE}
+            </span>
+          )}
 
           {isSearching && (
             <button
               onClick={onReset}
-              className="p-1 bg-toss-grey rounded-full active:scale-90 transition-transform hover:bg-toss-grey/80"
+              className="p-1.5 bg-toss-grey/20 rounded-full active:scale-90 transition-all hover:bg-toss-grey/30"
               aria-label="위치 초기화"
             >
-              <X className="size-3.5 text-toss-text-sub" />
+              <X size={14} className="text-toss-text-sub" />
             </button>
           )}
         </div>
       </div>
 
+      {/* 오른쪽: GPS 액션 버튼 */}
       <button
         onClick={onActivateGPS}
         className={cn(
-          'flex items-center gap-2 px-4 py-2 rounded-full transition-all active:scale-95 border shadow-sm',
+          'flex items-center gap-2 px-5 py-2.5 rounded-full transition-all active:scale-95 border shadow-sm',
           hasGeo
-            ? 'bg-blue-50 dark:bg-toss-blue/10 text-toss-blue border-toss-blue/20'
-            : 'bg-background dark:bg-secondary text-toss-text-sub border-border',
+            ? 'bg-toss-blue text-white border-toss-blue shadow-blue-200/50'
+            : 'bg-background text-toss-text-sub border-toss-grey/30',
         )}
       >
-        {hasGeo ? <LocateFixed className="size-5" /> : <Locate className="size-5" />}
-        <span className="text-toss-btn font-bold">{LABELS.GPS_BTN}</span>
+        {hasGeo ? <LocateFixed size={18} /> : <Locate size={18} />}
+        <span className="text-toss-btn font-bold">{UI_TEXT.GPS_BTN}</span>
       </button>
     </header>
   );

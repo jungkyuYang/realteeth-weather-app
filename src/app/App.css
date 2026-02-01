@@ -3,10 +3,9 @@
   flex-direction: column;
   min-height: 100dvh;
   margin: 0 auto;
-  padding: 0 1.6rem; /* 양옆 여백 16px */
-
-  /* 반응형 컨테이너 폭 설정 */
+  padding: 0 2rem; /* 💡 토스는 보통 20px(2rem) 여백을 선호합니다 */
   width: 100%;
+  background-color: var(--background); /* 전역 배경 적용 */
 }
 
 /* 태블릿 이상 (768px ~) */
@@ -22,4 +21,12 @@
   .app-container {
     max-width: 102.4rem; /* 1024px */
   }
+}
+
+.toss-card {
+  background-color: var(--card);
+  border-radius: var(--radius-3xl);
+  padding: 2.4rem;
+  /* 살짝 띄워진 느낌의 그림자 */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02);
 }

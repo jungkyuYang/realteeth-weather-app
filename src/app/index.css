@@ -5,7 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand-primary: #3b82f6; /* 날씨 앱 메인 컬러 (파랑) */
+  --color-toss-blue: #3182f6;
+  --color-toss-blue-hover: #1b64da;
+  --color-toss-bg: #ffffff;
+  --color-toss-grey: #f2f4f6;
+  --color-toss-text-sub: #4e5968;
+
+
+  /* 💡 텍스트 컬러 공용 변수 등록 */
+  --color-toss-text-main: #191f28; /* 아주 어두운 회색 (토스 기본) */
+  --color-toss-text-sub: #4e5968;  /* 중간 회색 (설명문용) */
+  
+  /* 💡 기존 brand-primary를 토스 블루로 연결 */
+  --color-brand-primary: var(--color-toss-blue);
   --color-brand-secondary: #10b981; /* 포인트 컬러 (초록) */
 
   --breakpoint-sm: 640px;
@@ -27,7 +39,8 @@
   }
 
   body {
-    @apply text-base antialiased transition-colors duration-300;
+    @apply text-[1.6rem] antialiased transition-colors duration-300;
+    line-height: 1.5;
     background-color: var(--background);
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
@@ -37,18 +50,18 @@
 
 :root {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --radius: 0.625rem;
+  --foreground:#191f28;
+  --radius: 1.4rem; /* 토스 특유의 큼직하고 둥근 느낌 (14px) */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: 221.2 93.2% 58.8%; /* 토스 블루 */
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted: #f2f4f6; /* 토스 회색 배경 */
+  --muted-foreground: #4e5968; /* 토스 서브 텍스트 */
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
@@ -68,21 +81,23 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --toss-blue: #3182f6;
+  --toss-blue-hover: #1b64da;
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
+  --background: #191f28; /* 다크 모드 배경색 */
+  --foreground: #f2f4f6; /* 다크 모드 기본 텍스트 (밝은색) */
   --card: oklch(0.208 0.042 265.755);
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
+  --primary: 221.2 93.2% 58.8%; /* 다크모드에서도 블루는 유지 */
   --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
+  --muted: #2c323b;
+  --muted-foreground: #9ca3af;
   --accent: oklch(0.279 0.041 260.031);
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);

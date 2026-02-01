@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import { Toaster } from '@/shared/ui/sonner';
+import { ThemeToggleButton } from '@/shared/ui/theme-toggle-button';
 
 export const RootLayout = () => {
   return (
@@ -8,7 +9,7 @@ export const RootLayout = () => {
       <header className="py-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-brand-primary">Weather App</h1>
         {/* 다크모드 스위치 등을 여기에 배치 */}
-        <button className="p-2 bg-slate-200 dark:bg-slate-800 rounded-lg">🌙</button>
+        <ThemeToggleButton />
       </header>
 
       {/* 실제 페이지 내용이 갈아끼워지는 지점 */}

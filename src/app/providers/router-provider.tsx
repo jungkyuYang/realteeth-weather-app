@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider as ReactRouterProvider } from 'react-router';
 import { RootLayout } from '../layouts/root-layout';
 import { NotFoundPage } from '@/pages/error/not-found';
+import TestPage from '@/pages/TestPage';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: 'detail/:id',
         element: <div className="p-4">Detail Page (준비 중)</div>, // <DetailPage />
+      },
+      {
+        path: 'test',
+        element: <TestPage />,
       },
     ],
   },

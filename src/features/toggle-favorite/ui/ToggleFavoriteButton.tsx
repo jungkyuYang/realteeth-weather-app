@@ -38,7 +38,7 @@ export const ToggleFavoriteButton = ({ location, className, showText = true }: P
           active ? 'fill-favorite text-favorite scale-110' : 'text-toss-text-sub',
         )}
       />
-      {showText && <span className="text-[1.4rem] leading-none">{active ? '해제' : '등록'}</span>}
+      {showText && <span className="text-toss-btn leading-none">{active ? '해제' : '등록'}</span>}
     </Button>
   );
 };

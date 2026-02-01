@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider as ReactRouterProvider } from 'react-router';
 import { RootLayout } from '../layouts/root-layout';
-import { NotFoundPage } from '@/pages/error/not-found';
+import NotFoundPage from '@/pages/error/not-found';
+import LocationDetailPage from '@/pages/LocationDetailPage';
+import HomePage from '@/pages/HomePage';
 
 const router = createBrowserRouter([
   {
@@ -10,16 +12,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true, // '/' 경로일 때
-        element: <div className="p-4">Home Page (준비 중)</div>, // <HomePage />
+        element: <HomePage />, // <HomePage />
       },
       {
-        path: 'detail/:id',
-        element: <div className="p-4">Detail Page (준비 중)</div>, // <DetailPage />
+        path: 'detail/:lat/:lon',
+        element: <LocationDetailPage />, // <DetailPage />
       },
-      // {
-      //   path: 'test',
-      //   element: <TestPage />,
-      // },
     ],
   },
   {

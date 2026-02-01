@@ -54,16 +54,6 @@ export interface WeatherForecastResponse {
   };
 }
 
-// 기존 SearchLocationResponse는 그대로 유지
-export interface SearchLocationResponse {
-  name: string;
-  local_names?: Record<string, string>;
-  lat: number;
-  lon: number;
-  country: string;
-  state?: string;
-}
-
 // 기존 WeatherResponse (현재 날씨 API용)도 유지
 export interface WeatherResponse {
   main: {

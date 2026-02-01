@@ -2,11 +2,19 @@ import { createBaseClient } from '@/shared/api/baseClient';
 import {
   type WeatherData,
   type WeatherResponse,
-  type SearchLocationResponse,
   type WeatherForecastResponse,
   type HourlyWeather,
 } from '../model/types';
 import { type BaseLocation } from '@/shared/types/location';
+
+interface SearchLocationResponse {
+  name: string;
+  local_names?: Record<string, string>;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
+}
 
 const ENDPOINTS = {
   WEATHER: '/data/2.5/weather',
@@ -56,6 +64,7 @@ const mapSearchResponse = (data: SearchLocationResponse[]): BaseLocation[] => {
   return data.map((item) => ({
     id: `${item.lat}-${item.lon}`,
     name: item.local_names?.ko || item.name,
+    originalName: item.name,
     lat: item.lat,
     lon: item.lon,
     country: item.country,
@@ -77,7 +86,7 @@ export const weatherApi = {
     return mapWeatherResponse(data);
   },
 
-  /** 💡 시간대별 예보 조회 추가 */
+  /**  시간대별 예보 조회 추가 */
   fetchForecast: async (lat: number, lon: number): Promise<HourlyWeather[]> => {
     const { data } = await openWeatherClient.get<WeatherForecastResponse>(ENDPOINTS.FORECAST, {
       params: {
@@ -92,9 +101,10 @@ export const weatherApi = {
 
   /** 위치 검색 */
   searchLocations: async (query: string): Promise<BaseLocation[]> => {
+    const searchQuery = query.includes(',KR') ? query : `${query},KR`;
     const { data } = await openWeatherClient.get<SearchLocationResponse[]>(ENDPOINTS.GEO, {
       params: {
-        q: query,
+        q: searchQuery,
       },
     });
     return mapSearchResponse(data);

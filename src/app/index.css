@@ -8,7 +8,7 @@
   --color-toss-blue: #3182f6;
   --color-toss-blue-hover: #1b64da;
   --color-toss-bg: #ffffff;
-
+  
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
@@ -125,6 +125,20 @@
 
   --color-favorite: var(--favorite);
   --color-favorite-bg: var(--favorite-bg);
+
+  /* 💡 추가: 상세 그레이 색상 단계 (변수와 연결) */
+  --color-toss-grey-100: var(--toss-grey);
+  --color-toss-grey-400: #8b95a1; /* v4에서는 직접 값을 넣어도 유틸리티가 생성됩니다 */
+  --color-toss-grey-500: var(--toss-text-sub);
+  --color-toss-grey-600: #4e5968;
+
+  /* 💡 추가: 폰트 사이즈 유틸리티 정의 */
+  --text-toss-header: 1.7rem;
+  --text-toss-btn: 1.4rem;
+  --text-toss-badge: 1.0rem;
+
+;
+  
 }
 
 @layer base {
@@ -133,5 +147,41 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* 전역 커스텀 스크롤바 추가 */
+  /* 1. 기본 브라우저 스크롤바 스타일 (Webkit 기반) */
+  *::-webkit-scrollbar {
+    width: 0.6rem;  /* 세로 스크롤 두께 */
+    height: 0.6rem; /* 가로 스크롤 두께 */
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-[#d1d6db] rounded-full; /* 라이트모드 핸들 */
+    border: 2px solid transparent; /* 배경과 여백 효과 */
+    background-clip: padding-box;
+  }
+
+  .dark *::-webkit-scrollbar-thumb {
+    @apply bg-[#333d4b]; /* 다크모드 핸들 (toss-grey 느낌) */
+  }
+
+  /* 2. 스크롤바를 숨기고 싶은 경우 사용할 유틸리티 클래스 */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* 3. 특정 영역만 노출하고 싶은 경우 (예: 시간대별 예보) */
+  .custom-scrollbar {
+    scrollbar-color: var(--toss-grey) transparent; /* Firefox */
+    scrollbar-width: thin;
+    
   }
 }

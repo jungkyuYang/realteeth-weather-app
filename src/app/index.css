@@ -1,4 +1,9 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+@font-face {
+  font-family: 'Pretendard Variable';
+  src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap; 
+}
 @import 'tailwindcss';
 @import "tw-animate-css";
 
@@ -23,7 +28,6 @@
   html {
     font-size: 62.5%; /* 1rem = 10px 세팅 */
     scroll-behavior: smooth;
-    font-display: swap;
   }
 
   body {

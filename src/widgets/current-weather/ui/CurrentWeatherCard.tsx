@@ -99,7 +99,9 @@ export const CurrentWeatherCard = ({ lat, lon }: { lat: number; lon: number }) =
                 'w-full h-full object-contain drop-shadow-2xl transition-opacity duration-300',
                 isRefreshing ? 'opacity-30' : 'opacity-100',
               )}
-              alt=""
+              alt={weather.status}
+              fetchPriority="high"
+              loading="eager"
             />
           </div>
           <div className="text-center">
@@ -132,7 +134,7 @@ export const CurrentWeatherCard = ({ lat, lon }: { lat: number; lon: number }) =
             {dailyFlowData.map((hour) => (
               <div key={hour.dt} className="flex flex-col items-center min-w-[5.2rem] gap-3">
                 <span className="text-toss-btn text-toss-grey-400 font-medium">{formatHour(hour.dt)}</span>
-                <img src={getWeatherIconUrl(hour.icon)} className="size-12" alt="" />
+                <img src={getWeatherIconUrl(hour.icon)} className="size-12" alt="" loading="lazy" decoding="async" />
                 <span className="text-[1.8rem] font-bold tabular-nums text-toss-text-main">
                   {hour.temp.toFixed(0)}°
                 </span>

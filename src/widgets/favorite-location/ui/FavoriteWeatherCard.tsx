@@ -3,7 +3,7 @@ import { WeatherCard } from '@/entities/weather/ui/WeatherCard'; // 엔티티 �
 import { type BaseLocation } from '@/shared/types/location';
 import { cn } from '@/shared/lib/utils';
 import { useWeather } from '@/entities/weather/model/useWeather';
-
+import { getWeatherIconUrl } from '@/entities/weather/lib/formatter';
 interface FavoriteWeatherCardProps {
   location: BaseLocation & { nickname?: string };
   isSelected?: boolean;
@@ -59,7 +59,13 @@ export const FavoriteWeatherCard = ({
       }
       weatherIcon={
         weather?.icon && (
-          <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt="" className="w-12 h-12" />
+          <img
+            src={getWeatherIconUrl(weather.icon, '2x')}
+            alt={weather.description}
+            className="w-12 h-12"
+            fetchPriority="high"
+            loading="eager"
+          />
         )
       }
     />

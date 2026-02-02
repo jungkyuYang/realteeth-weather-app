@@ -36,7 +36,7 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('recharts')) return 'recharts';
-            if (id.includes('lucide-react')) return 'lucide';
+            if (id.includes('@tanstack')) return 'tanstack';
             return 'vendor';
           }
         },

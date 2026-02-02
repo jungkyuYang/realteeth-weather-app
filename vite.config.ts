@@ -20,6 +20,20 @@ export default defineConfig({
     }),
     tailwindcss(),
   ],
+  build: {
+    cssCodeSplit: true, // CSS를 기능별로 쪼개서 초기 로딩 방해 최소화
+    modulePreload: {
+      polyfill: false, // 최신 브라우저 타겟팅 시 로딩 속도 향상
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 라이브러리들을 별도 파일로 분리하여 메인 CSS/JS 크기 축소
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
   resolve: {
     alias: [
       {

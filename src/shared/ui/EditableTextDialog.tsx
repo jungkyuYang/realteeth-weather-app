@@ -20,6 +20,7 @@ interface Props {
   initialValue: string;
   placeholder?: string;
   triggerIcon?: React.ReactNode;
+  triggerAriaLabel?: string;
   onSave: (value: string) => Promise<void> | void;
   isLoading?: boolean;
   triggerClassName?: string;
@@ -35,6 +36,7 @@ export const EditableTextDialog = ({
   initialValue,
   placeholder,
   triggerIcon,
+  triggerAriaLabel,
   onSave,
   isLoading,
   triggerClassName,
@@ -65,7 +67,7 @@ export const EditableTextDialog = ({
         <Button
           variant="ghost"
           size="icon-sm"
-          /* 💡 hover:bg-toss-grey는 모드에 따라 자동으로 변합니다 */
+          aria-label={triggerAriaLabel || `${title} 수정`}
           className={cn('hover:bg-toss-grey hover:text-toss-blue', triggerClassName)}
         >
           {triggerIcon}
@@ -75,6 +77,7 @@ export const EditableTextDialog = ({
       <DialogContent
         className={cn(
           'sm:max-w-152 p-0 overflow-hidden border-none shadow-2xl rounded-[2.8rem] bg-card',
+          // 우측 상단 X 닫기 버튼 스타일링
           '[&>button]:right-10 [&>button]:top-10 [&>button]:rounded-full [&>button]:p-3',
           '[&>button>svg]:size-[2.2rem]',
           '[&>button]:text-toss-text-sub [&>button]:hover:bg-toss-grey [&>button]:transition-all',
@@ -85,7 +88,6 @@ export const EditableTextDialog = ({
       >
         <form onSubmit={handleSubmit} className="flex flex-col bg-card">
           <DialogHeader className="p-[3.2rem] pb-[1.2rem] text-center">
-            {/* 💡 text-toss-text-main을 써야 다크모드에서 흰색으로 변합니다 */}
             <DialogTitle className="text-[2.4rem] font-bold text-toss-text-main leading-tight">{title}</DialogTitle>
             {description && (
               <DialogDescription className="text-toss-text-sub font-medium pt-[0.8rem] text-[1.5rem]">
@@ -104,7 +106,6 @@ export const EditableTextDialog = ({
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder={placeholder}
-                /* 💡 Input 컴포넌트 내부에서 이미 bg-toss-grey 처리가 되어있으므로 중복 스타일 제거 가능 */
                 className={cn('h-[5.6rem] px-8 text-[1.8rem] font-semibold', inputClassName)}
                 autoFocus
               />
@@ -116,7 +117,6 @@ export const EditableTextDialog = ({
               type="submit"
               size="lg"
               disabled={isLoading || !value.trim() || value === initialValue}
-              /* 💡 Button 컴포넌트의 default(toss-blue)를 활용 */
               className={cn('w-full order-1 shadow-lg shadow-blue-500/10 active:scale-[0.98]', submitButtonClassName)}
             >
               {isLoading ? '변경 중...' : '확인'}
@@ -127,7 +127,6 @@ export const EditableTextDialog = ({
               variant="ghost"
               size="lg"
               onClick={() => setOpen(false)}
-              /* 💡 취소 버튼: 텍스트는 자동으로 서브 컬러, 호버 시 배경 대응 */
               className="w-full order-2 text-toss-text-sub font-medium"
             >
               다음에 할게요

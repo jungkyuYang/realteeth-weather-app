@@ -14,17 +14,20 @@ export const ToggleFavoriteButton = ({ location, className, showText = true }: P
   const { isFavorite, toggleFavorite, isSaving } = useToggleFavorite();
   const active = isFavorite(location.lat, location.lon);
 
+  const label = active ? '즐겨찾기 해제' : '즐겨찾기 등록';
+
   return (
     <Button
       variant={active ? 'secondary' : 'outline'}
       size={showText ? 'sm' : 'icon-sm'}
+      aria-label={showText ? undefined : label}
       onClick={(e) => {
         e.stopPropagation();
         toggleFavorite(location);
       }}
       disabled={isSaving}
       className={cn(
-        'transition-all font-bold shrink-0', // 버튼이 찌그러지지 않게 shrink-0 추가
+        'transition-all font-bold shrink-0',
         active && 'bg-favorite-bg text-favorite border-favorite/20 hover:bg-favorite-bg/80',
         !active && 'text-toss-text-sub',
         showText && 'min-w-[7.2rem]',
@@ -32,6 +35,7 @@ export const ToggleFavoriteButton = ({ location, className, showText = true }: P
       )}
     >
       <Star
+        aria-hidden="true"
         className={cn(
           'size-[1.6rem] transition-transform duration-300',
           showText && 'mr-2',

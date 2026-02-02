@@ -1,40 +1,43 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 
-import { type WeatherData } from './types';
+import { ERROR_MESSAGES } from '@/shared/constants/constants';
+import { type BaseLocation } from '@/shared/types/location';
+
+import { sanitizeQuery, isValidSearchQuery } from './validation';
 import { weatherKeys } from './weatherKeys';
 import { weatherApi } from '../api/weatherApi';
 
 /**
- * 💡 핵심 로직: 상세 날씨 및 예보 통합 조회 훅
+ * 💡 핵심 로직: 위치 검색 관리 커스텀 훅
  */
-export const useWeather = (lat?: number | null, lon?: number | null) => {
-  const query = useSuspenseQuery<WeatherData, Error>({
-    queryKey: weatherKeys.detail(lat!, lon!),
-    queryFn: async () => {
-      // 현재 날씨와 시간대별 예보를 병렬로 호출
-      const [currentWeather, hourlyForecast] = await Promise.all([
-        weatherApi.fetchByCoords(lat!, lon!),
-        weatherApi.fetchForecast(lat!, lon!),
-      ]);
+export const useWeatherSearch = (query: string) => {
+  const sanitizedQuery = sanitizeQuery(query);
+  const isEnabled = isValidSearchQuery(sanitizedQuery);
 
-      return {
-        ...currentWeather,
-        hourly: hourlyForecast,
-      };
-    },
+  const searchQuery = useQuery<BaseLocation[], Error>({
+    queryKey: weatherKeys.search(sanitizedQuery),
+    queryFn: () => weatherApi.searchLocations(sanitizedQuery),
+    enabled: isEnabled,
+    placeholderData: keepPreviousData,
     staleTime: CONSTANTS.STALE_TIME,
     gcTime: CONSTANTS.GC_TIME,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   });
 
   return {
-    weather: query.data,
-    isRefreshing: query.isFetching,
-    refresh: () => query.refetch(),
+    locations: searchQuery.data ?? [],
+    isLoading: searchQuery.isPending,
+    isSearching: searchQuery.isFetching && !searchQuery.isPending,
+    isError: searchQuery.isError || !isEnabled,
+    error: !isEnabled ? ERROR_MESSAGES.WEATHER.INVALID_QUERY : (searchQuery.error?.message ?? null),
+    search: () => searchQuery.refetch(),
   };
 };
 
+/**
+ * 💡 최하단 통합 상수 관리
+ */
 const CONSTANTS = {
-  STALE_TIME: 1000 * 60 * 5, // 5분
-  GC_TIME: 1000 * 60 * 30, // 30분
+  STALE_TIME: 1000 * 60 * 60 * 24, // 24시간 (하루)
+  GC_TIME: 1000 * 60 * 60 * 24 * 1.5, // 36시간
 } as const;

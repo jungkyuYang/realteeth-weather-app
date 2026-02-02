@@ -88,7 +88,7 @@ export const SearchLocation = forwardRef<SearchLocationHandle, SearchLocationPro
           <div className="max-h-160 overflow-y-auto custom-scrollbar">
             {locations.length > 0 ? (
               <div className="flex flex-col gap-1">
-                {locations.map((loc, idx) => (
+                {locations.map((loc: BaseLocation, idx: number) => (
                   <SearchResultItem
                     key={loc.id}
                     loc={loc}

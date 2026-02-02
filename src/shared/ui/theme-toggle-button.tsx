@@ -1,14 +1,18 @@
 import { useState } from 'react';
+
 import Moon from 'lucide-react/dist/esm/icons/moon';
 import Sun from 'lucide-react/dist/esm/icons/sun';
-import { Button } from './button';
+
 import { toggleDarkMode } from '@/shared/lib/theme';
+
+import { Button } from './button';
 
 export const ThemeToggleButton = () => {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window !== 'undefined') {
       return document.documentElement.classList.contains('dark');
     }
+
     return false;
   });
 

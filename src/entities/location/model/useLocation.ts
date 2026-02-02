@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
+
 import { useQuery, keepPreviousData, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
-import { locationApi } from '../api/locationApi';
+
+import { ERROR_MESSAGES } from '@/shared/constants/constants';
+
 import { locationKeys } from './locationKeys';
-import { isGeolocationSupported } from './validation';
 import { type LocationData } from './types';
-import { ERROR_MESSAGES } from '@/shared/constants/messages';
+import { isGeolocationSupported } from './validation';
+import { locationApi } from '../api/locationApi';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
+
 const THIRTY_MINUTES = 1000 * 60 * 30;
+
 const SESSION_STORAGE_KEY = 'weather_app_last_location_v1';
 
 export const useLocation = () => {
@@ -26,6 +31,7 @@ export const useLocation = () => {
     initialData: () => {
       try {
         const saved = sessionStorage.getItem(SESSION_STORAGE_KEY);
+
         return saved ? JSON.parse(saved) : undefined;
       } catch {
         return undefined;

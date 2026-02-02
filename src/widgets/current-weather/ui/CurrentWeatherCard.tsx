@@ -1,7 +1,8 @@
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
+import X from 'lucide-react/dist/esm/icons/x';
+
 import { useWeather } from '@/entities/weather';
 import { formatHour, getWeatherIconUrl } from '@/entities/weather/lib/formatter';
-import X from 'lucide-react/dist/esm/icons/x';
-import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
 import { cn } from '@/shared/lib/utils';
 import { Skeleton } from '@/shared/ui/skeleton';
 
@@ -78,6 +79,7 @@ export const CurrentWeatherError = ({ resetErrorBoundary }: { resetErrorBoundary
  */
 export const CurrentWeatherCard = ({ lat, lon }: { lat: number; lon: number }) => {
   const { weather, isRefreshing, refresh } = useWeather(lat, lon);
+
   const dailyFlowData = weather.hourly?.slice(0, CONFIG.FORECAST_HOURS) || [];
 
   return (

@@ -5,6 +5,7 @@ export const toggleDarkMode = () => {
 
 export const initTheme = () => {
   const theme = localStorage.getItem('theme');
+
   const isDark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   if (isDark) {

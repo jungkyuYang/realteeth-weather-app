@@ -1,10 +1,12 @@
 import { useState, useCallback, useMemo } from 'react';
+
 import { useWeatherSearch } from '@/entities/weather/model/useWeatherSearch';
-import { type BaseLocation } from '@/shared/types/location';
 import { useDebounce } from '@/shared/lib/hooks/useDebounce';
+import { type BaseLocation } from '@/shared/types/location';
 
 export const useSearchLocation = (onSelect: (loc: BaseLocation) => void) => {
   const [input, setInput] = useState('');
+
   const [internalFocusedIndex, setInternalFocusedIndex] = useState(-1);
 
   // 1. Debounce 처리 (API 호출 및 포커스 타이밍 제어용)

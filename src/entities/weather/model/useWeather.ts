@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { weatherApi } from '../api/weatherApi';
-import { weatherKeys } from './weatherKeys';
+
 import { type WeatherData } from './types';
+import { weatherKeys } from './weatherKeys';
+import { weatherApi } from '../api/weatherApi';
 
 const FIVE_MINUTES = 1000 * 60 * 5;
+
 const THIRTY_MINUTES = 1000 * 60 * 30;
 
 export const useWeather = (lat?: number | null, lon?: number | null) => {
@@ -14,6 +16,7 @@ export const useWeather = (lat?: number | null, lon?: number | null) => {
         weatherApi.fetchByCoords(lat!, lon!),
         weatherApi.fetchForecast(lat!, lon!),
       ]);
+
       return {
         ...currentWeather,
         hourly: hourlyForecast,

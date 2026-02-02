@@ -1,11 +1,14 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-import Search from 'lucide-react/dist/esm/icons/search';
-import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+
 import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
-import { Input } from '@/shared/ui/input';
-import { useSearchLocation } from '../model/useSearchLocation';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Search from 'lucide-react/dist/esm/icons/search';
+
 import { cn } from '@/shared/lib/utils';
 import { type BaseLocation } from '@/shared/types/location';
+import { Input } from '@/shared/ui/input';
+
+import { useSearchLocation } from '../model/useSearchLocation';
 
 const TEXTS = {
   placeholder: '지역명으로 날씨 검색',

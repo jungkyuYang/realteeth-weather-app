@@ -1,12 +1,14 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-import Search from 'lucide-react/dist/esm/icons/search';
-import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+
 import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
-import { Input } from '@/shared/ui/input';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import Search from 'lucide-react/dist/esm/icons/search';
+
 import { useSearchLocation } from '@/features/search-location/model/useSearchLocation';
 import { ToggleFavoriteButton } from '@/features/toggle-favorite/ui/ToggleFavoriteButton';
 import { cn } from '@/shared/lib/utils';
 import { type BaseLocation } from '@/shared/types/location';
+import { Input } from '@/shared/ui/input';
 
 const STYLES = {
   container: 'relative w-full max-w-240 mx-auto',

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect, type RefObject } from 'react';
+
 import { useDistrictData } from '@/entities/location/model/district';
 
 export type SelectorStep = 'province' | 'city' | 'dong';
@@ -21,6 +22,7 @@ export interface UseDistrictSelectorReturn {
 
 export const useDistrictSelector = (onConfirm: (address: string) => void): UseDistrictSelectorReturn => {
   const [step, setStep] = useState<SelectorStep>('province');
+
   const [selection, setSelection] = useState<SelectionState>({
     province: '',
     city: '',
@@ -29,6 +31,7 @@ export const useDistrictSelector = (onConfirm: (address: string) => void): UseDi
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { provinces, cities, dongs } = useDistrictData(selection.province, selection.city);
+
   const currentList = step === 'province' ? provinces : step === 'city' ? cities : dongs;
 
   useEffect(() => {

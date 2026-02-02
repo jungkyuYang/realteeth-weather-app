@@ -1,7 +1,9 @@
-import { ERROR_MESSAGES } from '@/shared/constants/messages';
+import { ERROR_MESSAGES } from '@/shared/constants/constants';
+
 import { type LocationData } from '../model/types';
 
 const TEN_SECONDS = 1000 * 10;
+
 const ONE_MINUTE = 1000 * 60;
 
 const GEOLOCATION_CONFIG: PositionOptions = {

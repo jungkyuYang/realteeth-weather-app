@@ -95,6 +95,7 @@ test.describe('날씨 앱 구현 기능 테스트', () => {
 
   test('요구사항 4-1: 즐겨찾기 등록 및 최대 개수(6개) 제한 로직이 작동하는가', async ({ page }) => {
     const cities = ['종로구', '강남구', '송파구', '서초구', '마포구', '영등포구'];
+
     const searchInput = page.getByPlaceholder(/검색/i);
 
     // 1. 반복문을 통한 6개 지역 즐겨찾기 추가 시뮬레이션

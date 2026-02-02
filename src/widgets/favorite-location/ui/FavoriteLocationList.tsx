@@ -1,8 +1,9 @@
 import { useFavorite } from '@/entities/location-favorite/model/useLocationFavorite';
-import { ToggleFavoriteButton } from '@/features/toggle-favorite/ui/ToggleFavoriteButton';
 import { EditNicknameButton } from '@/features/edit-favorite/ui/EditNicknameButton';
-import { FavoriteWeatherCard } from './FavoriteWeatherCard';
+import { ToggleFavoriteButton } from '@/features/toggle-favorite/ui/ToggleFavoriteButton';
 import { type BaseLocation } from '@/shared/types/location';
+
+import { FavoriteWeatherCard } from './FavoriteWeatherCard';
 
 interface Props {
   onSelect: (loc: BaseLocation) => void;

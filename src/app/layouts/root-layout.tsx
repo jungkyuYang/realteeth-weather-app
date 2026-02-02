@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router';
+
+import { ScrollToTop } from '@/shared/lib/components/ScrollToTop';
 import { Toaster } from '@/shared/ui/sonner';
 import { ThemeToggleButton } from '@/shared/ui/theme-toggle-button';
-import { ScrollToTop } from '@/shared/lib/components/ScrollToTop';
 
 export const RootLayout = () => {
   return (

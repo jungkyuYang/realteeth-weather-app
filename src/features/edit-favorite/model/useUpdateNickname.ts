@@ -1,6 +1,7 @@
-import { useFavorite } from '@/entities/location-favorite/model/useLocationFavorite';
 import { type LocationFavorite } from '@/entities/location-favorite/model/types';
+import { useFavorite } from '@/entities/location-favorite/model/useLocationFavorite';
 import { toast } from '@/shared/lib/store/useToastStore';
+
 import { EDIT_FAVORITE_CONSTANTS } from './constants';
 
 export const useUpdateNickname = () => {

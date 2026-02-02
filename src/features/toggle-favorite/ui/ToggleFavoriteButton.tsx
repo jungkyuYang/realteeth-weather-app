@@ -1,8 +1,10 @@
-import { Button } from '@/shared/ui/button';
 import Star from 'lucide-react/dist/esm/icons/star';
-import { useToggleFavorite } from '../model/useToggleFavorite';
-import { type BaseLocation } from '@/shared/types/location';
+
 import { cn } from '@/shared/lib/utils';
+import { type BaseLocation } from '@/shared/types/location';
+import { Button } from '@/shared/ui/button';
+
+import { useToggleFavorite } from '../model/useToggleFavorite';
 
 interface Props {
   location: BaseLocation;
@@ -12,6 +14,7 @@ interface Props {
 
 export const ToggleFavoriteButton = ({ location, className, showText = true }: Props) => {
   const { isFavorite, toggleFavorite, isSaving } = useToggleFavorite();
+
   const active = isFavorite(location.lat, location.lon);
 
   const label = active ? '즐겨찾기 해제' : '즐겨찾기 등록';

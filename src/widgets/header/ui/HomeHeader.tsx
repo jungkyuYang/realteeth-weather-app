@@ -1,9 +1,10 @@
+import Locate from 'lucide-react/dist/esm/icons/locate';
+import LocateFixed from 'lucide-react/dist/esm/icons/locate-fixed';
 import MapPin from 'lucide-react/dist/esm/icons/map-pin';
 import X from 'lucide-react/dist/esm/icons/x';
-import LocateFixed from 'lucide-react/dist/esm/icons/locate-fixed';
-import Locate from 'lucide-react/dist/esm/icons/locate';
-import { type BaseLocation } from '@/shared/types/location';
+
 import { cn } from '@/shared/lib/utils';
+import { type BaseLocation } from '@/shared/types/location';
 
 /**
  * 💡 1. 상수는 컴포넌트 외부 최상단으로 분리
@@ -29,7 +30,9 @@ interface HomeHeaderProps {
  */
 export const HomeHeader = ({ selectedLocation, geoCoords, onReset, onActivateGPS }: HomeHeaderProps) => {
   const isSearching = !!selectedLocation;
+
   const hasGeo = !!(geoCoords.lat && geoCoords.lon);
+
   const isDefault = !selectedLocation && !hasGeo;
 
   const locationName = selectedLocation?.name ?? (hasGeo ? UI_TEXT.GEO_LABEL : UI_TEXT.DEFAULT_NAME);

@@ -1,11 +1,13 @@
 /// <reference types="vitest/config" />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
-import path from 'path';
+
 import { fileURLToPath } from 'node:url';
+import path from 'path';
+
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
+import { defineConfig } from 'vite';
 
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
@@ -37,6 +39,7 @@ export default defineConfig({
           if (id.includes('node_modules')) {
             if (id.includes('recharts')) return 'recharts';
             if (id.includes('@tanstack')) return 'tanstack';
+
             return 'vendor';
           }
         },

@@ -1,18 +1,19 @@
 import { Suspense } from 'react';
-import { useParams, useLocation as useRouteLocation } from 'react-router';
+
 import { ErrorBoundary } from 'react-error-boundary';
+import { useParams, useLocation as useRouteLocation } from 'react-router';
 import { toast } from 'sonner';
 
 /**
  * 💡 위젯 임포트
  * 각 위젯은 본체, 로딩(Loading), 에러(Error) UI를 세트로 내보냅니다.
  */
-import { LocationDetailHeader } from '@/widgets/header/ui/LocationDetailHeader';
 import {
   CurrentWeatherCard,
   CurrentWeatherLoading,
   CurrentWeatherError,
 } from '@/widgets/current-weather/ui/CurrentWeatherCard';
+import { LocationDetailHeader } from '@/widgets/header/ui/LocationDetailHeader';
 import {
   WeatherForecastChart,
   WeatherForecastChartLoading,
@@ -36,15 +37,20 @@ const UI_TEXT = {
 
 const LocationDetailPage = () => {
   const { lat, lon } = useParams<{ lat: string; lon: string }>();
+
   const routeLocation = useRouteLocation();
 
   const numLat = Number(lat);
+
   const numLon = Number(lon);
+
   const cacheKey = `${numLat}-${numLon}`; // 좌표 변경 시 모든 Boundary 초기화용
 
   // URL Query에서 지역 이름 추출 (예: ?name=강남구)
   const queryParams = new URLSearchParams(routeLocation.search);
+
   const koreanName = queryParams.get('name');
+
   const displayTitle = koreanName ? `${koreanName} ${UI_TEXT.DEFAULT_TITLE}` : UI_TEXT.DEFAULT_TITLE;
 
   /**

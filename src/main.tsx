@@ -1,11 +1,13 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+
 import * as Sentry from '@sentry/react'; // 1. Sentry 임포트
+import { createRoot } from 'react-dom/client';
 
 import './app/index.css';
-import App from './app/App.tsx';
 
 import { initTheme } from '@/shared/lib/theme';
+
+import App from './app/App.tsx';
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,

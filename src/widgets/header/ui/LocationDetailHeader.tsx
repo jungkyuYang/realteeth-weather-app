@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router';
 import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
 import Share2 from 'lucide-react/dist/esm/icons/share-2';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 
 interface LocationDetailHeaderProps {

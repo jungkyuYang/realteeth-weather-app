@@ -1,7 +1,9 @@
-import X from 'lucide-react/dist/esm/icons/x';
-import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
 import Check from 'lucide-react/dist/esm/icons/check';
+import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
+import X from 'lucide-react/dist/esm/icons/x';
+
 import { cn } from '@/shared/lib/utils';
+
 import { useDistrictSelector } from '../model/useDistrictSelector';
 
 const TEXTS = {

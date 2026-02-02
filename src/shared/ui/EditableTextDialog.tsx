@@ -1,7 +1,7 @@
 import { useState } from 'react';
+
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,8 @@ import {
   DialogFooter,
   DialogDescription,
 } from '@/shared/ui/dialog';
-import { cn } from '@/shared/lib/utils';
+import { Input } from '@/shared/ui/input';
+import { Label } from '@/shared/ui/label';
 
 interface Props {
   title: string;
@@ -45,6 +46,7 @@ export const EditableTextDialog = ({
   submitButtonClassName,
 }: Props) => {
   const [open, setOpen] = useState(false);
+
   const [value, setValue] = useState(initialValue);
 
   const handleOpenChange = (nextOpen: boolean) => {

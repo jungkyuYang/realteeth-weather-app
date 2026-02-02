@@ -1,23 +1,24 @@
 import { useState, useRef, Suspense, useTransition } from 'react';
-import { useNavigate } from 'react-router';
-import { ErrorBoundary } from 'react-error-boundary';
-import { toast } from 'sonner';
+
+import { Dialog, DialogContent } from '@radix-ui/react-dialog';
+import { useOverlay } from '@toss/use-overlay';
 import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 import { useLocation } from '@/entities/location/model/useLocation';
-import { HomeHeader } from '@/widgets/header/ui/HomeHeader';
+import { DistrictSelector } from '@/features/select-district/ui/DistrictSelector';
+import { cn } from '@/shared/lib/utils';
+import { type BaseLocation } from '@/shared/types/location';
 import {
   CurrentWeatherCard,
   CurrentWeatherLoading,
   CurrentWeatherError,
 } from '@/widgets/current-weather/ui/CurrentWeatherCard';
 import { FavoriteLocationList } from '@/widgets/favorite-location/ui/FavoriteLocationList';
+import { HomeHeader } from '@/widgets/header/ui/HomeHeader';
 import { LocationSearch, type LocationSearchHandle } from '@/widgets/search-location/ui/LocationSearch';
-import { DistrictSelector } from '@/features/select-district/ui/DistrictSelector';
-
-import { type BaseLocation } from '@/shared/types/location';
-import { cn } from '@/shared/lib/utils';
-import { useLockBodyScroll } from '@/shared/lib/hooks/useLockBodyScroll';
 
 /**
  * 💡 1. 페이지 내부 상수 분리
@@ -37,15 +38,21 @@ const UI_TEXT = {
 
 const HomePage = () => {
   const navigate = useNavigate();
+
   const searchRef = useRef<LocationSearchHandle>(null);
+
   const [isPending, startTransition] = useTransition();
 
+  const overlay = useOverlay();
+
   const { lat: geoLat, lon: geoLon, refresh, isError } = useLocation();
+
   const [selectedLocation, setSelectedLocation] = useState<BaseLocation | null>(null);
-  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
 
   const targetLat = selectedLocation?.lat ?? geoLat ?? SEOUL_COORDS.lat;
+
   const targetLon = selectedLocation?.lon ?? geoLon ?? SEOUL_COORDS.lon;
+
   const cacheKey = `${targetLat}-${targetLon}`;
 
   const handleNavigateToDetail = (lat: number, lon: number, name?: string) => {
@@ -70,7 +77,22 @@ const HomePage = () => {
     }
   };
 
-  useLockBodyScroll(isSelectorOpen);
+  const handleOpenSelector = () => {
+    overlay.open(({ isOpen, close }) => (
+      // 아까 작성한 Dialog 공통 컴포넌트를 활용하면 베스트입니다!
+      <Dialog open={isOpen} onOpenChange={close}>
+        <DialogContent className="max-w-180">
+          <DistrictSelector
+            onConfirm={(addr) => {
+              close(); // 성공 시 오버레이 닫기
+              searchRef.current?.search(addr);
+            }}
+            onClose={close} // 취소 시 오버레이 닫기
+          />
+        </DialogContent>
+      </Dialog>
+    ));
+  };
 
   return (
     <div className="min-h-screen bg-background text-toss-text-main pb-20 transition-colors">
@@ -84,11 +106,7 @@ const HomePage = () => {
       <main className="px-6 py-8 space-y-16 max-w-240 mx-auto animate-in fade-in duration-500">
         {/* [TOP] 지역 검색 섹션 */}
         <section className="space-y-6">
-          <LocationSearch
-            ref={searchRef}
-            onSelect={handleSelectLocation}
-            onOpenSelector={() => setIsSelectorOpen(true)}
-          />
+          <LocationSearch ref={searchRef} onSelect={handleSelectLocation} onOpenSelector={handleOpenSelector} />
         </section>
 
         {/* [MIDDLE] 현재 날씨 정보 섹션 */}
@@ -135,27 +153,6 @@ const HomePage = () => {
             currentLocation={selectedLocation}
           />
         </section>
-
-        {/* 행정동 선택 모달 */}
-        {isSelectorOpen && (
-          <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
-            onClick={() => setIsSelectorOpen(false)}
-          >
-            <div
-              className="w-full max-w-180 animate-in slide-in-from-bottom-4 duration-300"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <DistrictSelector
-                onConfirm={(addr) => {
-                  setIsSelectorOpen(false);
-                  searchRef.current?.search(addr);
-                }}
-                onClose={() => setIsSelectorOpen(false)}
-              />
-            </div>
-          </div>
-        )}
       </main>
     </div>
   );

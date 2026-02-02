@@ -96,7 +96,7 @@
     - **결정**: 최신 버전인 React 19를 사용하고, `babel-plugin-react-compiler`를 빌드 과정에 포함시켰습니다.
     - **이유**:
         - **성능 최적화**: React Compiler는 코드를 자동으로 메모이제이션(memoization)하여 불필요한 리렌더링을 최소화하고, 수동으로 `useMemo`, `useCallback`을 사용해야 하는 번거로움을 줄여줍니다.
-        - **최신 기능 활용**: React 19의 `useTransition` 같은 동시성(Concurrency) 기능을 적극적으로 사용하여 UI의 반응성을 높였습니다. 예를 들어, 지역 검색 결과가 업데이트될 때 화면 전환을 부드럽게 처리합니다.
+        - **최신 기능 활용**: React 18의 `useTransition` 같은 동시성(Concurrency) 기능을 적극적으로 사용하여 UI의 반응성을 높였습니다. 예를 들어, 지역 검색 결과가 업데이트될 때 화면 전환을 부드럽게 처리합니다.
 
 5.  **모니터링 및 분석: Sentry와 Google Analytics**
     - **결정**: 에러 추적을 위해 Sentry를, 사용자 행동 분석을 위해 Google Analytics(React GA4)를 도입했습니다.

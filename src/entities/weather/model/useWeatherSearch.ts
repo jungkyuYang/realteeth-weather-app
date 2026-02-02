@@ -1,14 +1,17 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { weatherApi } from '../api/weatherApi';
-import { weatherKeys } from './weatherKeys';
+
+import { ERROR_MESSAGES } from '@/shared/constants/constants';
 import { type BaseLocation } from '@/shared/types/location';
+
 import { sanitizeQuery, isValidSearchQuery } from './validation';
-import { ERROR_MESSAGES } from '@/shared/constants/messages';
+import { weatherKeys } from './weatherKeys';
+import { weatherApi } from '../api/weatherApi';
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
 export const useWeatherSearch = (query: string) => {
   const sanitizedQuery = sanitizeQuery(query);
+
   const isEnabled = isValidSearchQuery(sanitizedQuery);
 
   const searchQuery = useQuery<BaseLocation[], Error>({

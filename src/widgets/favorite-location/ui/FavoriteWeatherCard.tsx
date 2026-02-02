@@ -1,9 +1,11 @@
 import { type ReactNode } from 'react';
-import { WeatherCard } from '@/entities/weather/ui/WeatherCard'; // 엔티티 카드 임포트
-import { type BaseLocation } from '@/shared/types/location';
-import { cn } from '@/shared/lib/utils';
-import { useWeather } from '@/entities/weather/model/useWeather';
+
 import { getWeatherIconUrl } from '@/entities/weather/lib/formatter';
+import { useWeather } from '@/entities/weather/model/useWeather';
+import { WeatherCard } from '@/entities/weather/ui/WeatherCard'; // 엔티티 카드 임포트
+import { cn } from '@/shared/lib/utils';
+import { type BaseLocation } from '@/shared/types/location';
+
 interface FavoriteWeatherCardProps {
   location: BaseLocation & { nickname?: string };
   isSelected?: boolean;
@@ -40,8 +42,10 @@ export const FavoriteWeatherCard = ({
         </div>
       );
     }
+
     return <span className="text-[2rem] font-bold truncate">{location.name}</span>;
   };
+
   return (
     <WeatherCard
       temp={weather?.temp ?? 0}

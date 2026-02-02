@@ -1,10 +1,13 @@
 import { lazy, Suspense, useEffect } from 'react';
+
+import ReactGA from 'react-ga4';
 import { createBrowserRouter, RouterProvider as ReactRouterProvider } from 'react-router';
-import { RootLayout } from '../layouts/root-layout';
+
 import NotFoundPage from '@/pages/error/not-found';
 import HomePage from '@/pages/HomePage';
 import { PageLoader } from '@/shared/ui/PageLoader';
-import ReactGA from 'react-ga4';
+
+import { RootLayout } from '../layouts/root-layout';
 
 const GA_TRACKING_ID = import.meta.env.VITE_GA_ID;
 

@@ -17,6 +17,7 @@ const transformToTree = (rawData: string[]): DistrictTree => {
     if (!tree[province][city]) tree[province][city] = [];
     if (dong) tree[province][city].push(dong);
   });
+
   return tree;
 };
 
@@ -28,6 +29,7 @@ export const useDistrictData = (selectedProvince?: string, selectedCity?: string
       const response = await fetch('/data/korea_districts.json');
       if (!response.ok) throw new Error('데이터를 불러오지 못했습니다.');
       const rawData = await response.json();
+
       return transformToTree(rawData);
     },
     staleTime: Infinity, // 데이터가 변하지 않으므로 무한 캐싱
@@ -38,7 +40,9 @@ export const useDistrictData = (selectedProvince?: string, selectedCity?: string
   const tree = districtTree || {};
 
   const provinces = Object.keys(tree);
+
   const cities = selectedProvince ? Object.keys(tree[selectedProvince] || {}) : [];
+
   const dongs = selectedProvince && selectedCity ? tree[selectedProvince][selectedCity] || [] : [];
 
   return {

@@ -1,7 +1,8 @@
+import * as Sentry from '@sentry/react'; // 1. Sentry 임포트
 import { QueryClient, QueryClientProvider, QueryCache } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 import { toast } from '@/shared/lib/store/useToastStore';
-import * as Sentry from '@sentry/react'; // 1. Sentry 임포트
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

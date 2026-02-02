@@ -1,11 +1,12 @@
 import { createBaseClient } from '@/shared/api/baseClient';
+import { type BaseLocation } from '@/shared/types/location';
+
 import {
   type WeatherData,
   type WeatherResponse,
   type WeatherForecastResponse,
   type HourlyWeather,
 } from '../model/types';
-import { type BaseLocation } from '@/shared/types/location';
 
 interface SearchLocationResponse {
   name: string;
@@ -83,6 +84,7 @@ export const weatherApi = {
         lang: 'kr',
       },
     });
+
     return mapWeatherResponse(data);
   },
 
@@ -96,17 +98,20 @@ export const weatherApi = {
         lang: 'kr',
       },
     });
+
     return mapForecastResponse(data);
   },
 
   /** 위치 검색 */
   searchLocations: async (query: string): Promise<BaseLocation[]> => {
     const searchQuery = query.includes(',KR') ? query : `${query},KR`;
+
     const { data } = await openWeatherClient.get<SearchLocationResponse[]>(ENDPOINTS.GEO, {
       params: {
         q: searchQuery,
       },
     });
+
     return mapSearchResponse(data);
   },
 };

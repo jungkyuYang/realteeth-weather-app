@@ -1,11 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { locationFavoriteApi } from '../api/locationFavoriteApi';
+
 import { locationFavoriteKeys } from './locationFavoriteKeys';
 import { type LocationFavorite } from './types';
+import { locationFavoriteApi } from '../api/locationFavoriteApi';
 import { STORAGE_KEY } from '../api/locationFavoriteApi';
 
 export const useFavorite = () => {
   const queryClient = useQueryClient();
+
   const queryKey = locationFavoriteKeys.lists();
 
   const query = useQuery<LocationFavorite[]>({
@@ -15,6 +17,7 @@ export const useFavorite = () => {
     initialData: () => {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
+
         return saved ? JSON.parse(saved) : [];
       } catch {
         return [];

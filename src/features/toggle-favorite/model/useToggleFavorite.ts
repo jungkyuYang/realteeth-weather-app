@@ -1,8 +1,9 @@
 import { type LocationFavorite } from '@/entities/location-favorite/model/types';
-import { type BaseLocation } from '@/shared/types/location';
 import { useFavorite } from '@/entities/location-favorite/model/useLocationFavorite';
-import { TOGGLE_FAVORITE_CONSTANTS } from './constants';
 import { toast } from '@/shared/lib/store/useToastStore';
+import { type BaseLocation } from '@/shared/types/location';
+
+import { TOGGLE_FAVORITE_CONSTANTS } from './constants';
 
 export const useToggleFavorite = () => {
   const { favorites, save, remove, isSaving } = useFavorite();
@@ -25,6 +26,7 @@ export const useToggleFavorite = () => {
     } else {
       if (favorites.length >= TOGGLE_FAVORITE_CONSTANTS.CONFIG.MAX_COUNT) {
         toast.error(TOGGLE_FAVORITE_CONSTANTS.MESSAGES.LIMIT_EXCEEDED(TOGGLE_FAVORITE_CONSTANTS.CONFIG.MAX_COUNT));
+
         return;
       }
 

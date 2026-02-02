@@ -1,0 +1,17 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # 브라우저에게 압축된 리소스를 우선적으로 처리하도록 권장
+    Vary = "Accept-Encoding"
+
+[[headers]]
+  # 빌드된 정적 자산(JS, CSS, 폰트)에 대해 강력한 캐싱 적용
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  # public 폴더 내의 폰트 파일 캐싱
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

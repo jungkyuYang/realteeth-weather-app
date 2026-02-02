@@ -10,14 +10,6 @@ import { cn } from '@/shared/lib/utils';
 import { type BaseLocation } from '@/shared/types/location';
 import { Input } from '@/shared/ui/input';
 
-const STYLES = {
-  container: 'relative w-full max-w-240 mx-auto',
-  input:
-    'h-[6.4rem] pl-20 pr-32 text-[1.8rem] rounded-[2.2rem] border-none bg-toss-grey dark:bg-white/5 focus:ring-2 ring-toss-blue/30 transition-all shadow-sm',
-  dropdown:
-    'absolute top-[110%] left-0 right-0 bg-white dark:bg-[#1b212e] rounded-[2.2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] z-50 overflow-hidden border border-toss-grey/10 animate-in fade-in zoom-in-95 duration-200 p-2',
-} as const;
-
 export interface LocationSearchHandle {
   search: (value: string) => void;
 }
@@ -44,10 +36,10 @@ export const LocationSearch = forwardRef<LocationSearchHandle, Props>(function L
   }));
 
   return (
-    <section className={STYLES.container}>
+    <section className={CONSTANTS.STYLE.CONTAINER}>
       <div className="relative group">
         <Search
-          size={24}
+          size={CONSTANTS.STYLE.ICON_SEARCH}
           className={cn(
             'absolute left-7 top-1/2 -translate-y-1/2 transition-all duration-300 z-10',
             input
@@ -60,24 +52,24 @@ export const LocationSearch = forwardRef<LocationSearchHandle, Props>(function L
           value={input}
           onChange={(e) => handleInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="지역명으로 날씨 검색"
-          className={STYLES.input}
+          placeholder={CONSTANTS.TEXT.PLACEHOLDER}
+          className={CONSTANTS.STYLE.INPUT}
         />
         <button
           type="button"
           onClick={onOpenSelector}
           className="absolute right-6 top-1/2 -translate-y-1/2 text-[1.5rem] font-bold text-toss-blue hover:bg-toss-blue/5 px-4 py-2 rounded-xl transition-all active:scale-95"
         >
-          지역 선택
+          {CONSTANTS.TEXT.BTN_SELECTOR}
         </button>
       </div>
 
       {input && (
-        <div className={STYLES.dropdown}>
+        <div className={CONSTANTS.STYLE.DROPDOWN}>
           <div className="max-h-160 overflow-y-auto custom-scrollbar">
             {locations.length > 0 ? (
               <div className="flex flex-col gap-1">
-                {locations.map((loc, idx) => (
+                {locations.map((loc: BaseLocation, idx: number) => (
                   <SearchResultItem
                     key={loc.id || `${loc.lat}-${loc.lon}`}
                     loc={loc}
@@ -88,8 +80,8 @@ export const LocationSearch = forwardRef<LocationSearchHandle, Props>(function L
               </div>
             ) : (
               !isSearching && (
-                <div className="py-20 text-center opacity-40 text-[1.6rem] font-bold">
-                  "{input}" 해당 장소의 정보가 제공되지 않습니다.
+                <div className="py-20 text-center opacity-40 text-[1.6rem] font-bold px-4">
+                  "{input}" {CONSTANTS.TEXT.NO_RESULT}
                 </div>
               )
             )}
@@ -148,7 +140,6 @@ const SearchResultItem = ({
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
-        {/* 💡 즐겨찾기 버튼 통합 */}
         <ToggleFavoriteButton
           location={loc}
           showText={false}
@@ -164,3 +155,22 @@ const SearchResultItem = ({
     </div>
   );
 };
+
+/**
+ * 💡 최하단 통합 상수 관리
+ */
+const CONSTANTS = {
+  TEXT: {
+    PLACEHOLDER: '지역명으로 날씨 검색',
+    BTN_SELECTOR: '지역 선택',
+    NO_RESULT: '해당 장소의 정보가 제공되지 않습니다.',
+  },
+  STYLE: {
+    CONTAINER: 'relative w-full max-w-240 mx-auto',
+    INPUT:
+      'h-[6.4rem] pl-20 pr-32 text-[1.8rem] rounded-[2.2rem] border-none bg-toss-grey dark:bg-white/5 focus:ring-2 ring-toss-blue/30 transition-all shadow-sm',
+    DROPDOWN:
+      'absolute top-[110%] left-0 right-0 bg-white dark:bg-[#1b212e] rounded-[2.2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] z-50 overflow-hidden border border-toss-grey/10 animate-in fade-in zoom-in-95 duration-200 p-2',
+    ICON_SEARCH: 24,
+  },
+} as const;

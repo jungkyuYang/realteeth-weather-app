@@ -2,26 +2,21 @@ import { ERROR_MESSAGES } from '@/shared/constants/constants';
 
 import { type LocationData } from '../model/types';
 
-const TEN_SECONDS = 1000 * 10;
-
-const ONE_MINUTE = 1000 * 60;
-
-const GEOLOCATION_CONFIG: PositionOptions = {
-  enableHighAccuracy: false,
-  timeout: TEN_SECONDS,
-  maximumAge: ONE_MINUTE,
-};
-
 /**
- * 좌표를 소수점 4자리로 반올림하여 정규화합니다.
- * (약 11m의 오차를 허용하여 캐시 효율을 높입니다.)
+ * 💡 핵심 로직: 위치 정보 API
  */
-export const roundCoordinate = (coord: number): number => {
-  return Number(coord.toFixed(4));
-};
 export const locationApi = {
+  /**
+   * 브라우저 Geolocation API를 사용하여 현재 좌표를 가져옵니다.
+   */
   fetchCurrent: (): Promise<LocationData> => {
     return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error(ERROR_MESSAGES.LOCATION.UNAVAILABLE));
+
+        return;
+      }
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           resolve({
@@ -30,27 +25,46 @@ export const locationApi = {
           });
         },
         (error) => {
-          const message = locationApi._getErrorMessage(error);
+          const message = formatLocationError(error);
           reject(new Error(message));
         },
-        GEOLOCATION_CONFIG,
+        CONSTANTS.GEOLOCATION_CONFIG,
       );
     });
   },
-
-  /**
-   * 내부용 에러 메시지 변환 함수 (Private 컨벤션)
-   */
-  _getErrorMessage: (error: GeolocationPositionError): string => {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        return ERROR_MESSAGES.LOCATION.PERMISSION_DENIED;
-      case error.POSITION_UNAVAILABLE:
-        return ERROR_MESSAGES.LOCATION.UNAVAILABLE;
-      case error.TIMEOUT:
-        return ERROR_MESSAGES.LOCATION.TIMEOUT;
-      default:
-        return ERROR_MESSAGES.LOCATION.UNKNOWN;
-    }
-  },
 };
+
+/**
+ * 💡 하단 정리: 보조 함수 및 상수
+ */
+
+/**
+ * 좌표를 소수점 4자리까지 반올림 (좌표값 정규화)
+ */
+const roundCoordinate = (coord: number): number => {
+  return Number(coord.toFixed(4));
+};
+
+/**
+ * Geolocation 에러 코드를 정의된 메시지로 변환
+ */
+const formatLocationError = (error: GeolocationPositionError): string => {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      return ERROR_MESSAGES.LOCATION.PERMISSION_DENIED;
+    case error.POSITION_UNAVAILABLE:
+      return ERROR_MESSAGES.LOCATION.UNAVAILABLE;
+    case error.TIMEOUT:
+      return ERROR_MESSAGES.LOCATION.TIMEOUT;
+    default:
+      return ERROR_MESSAGES.LOCATION.UNKNOWN;
+  }
+};
+
+const CONSTANTS = {
+  GEOLOCATION_CONFIG: {
+    enableHighAccuracy: false,
+    timeout: 1000 * 10, // 10초
+    maximumAge: 1000 * 60, // 1분 (캐시 활용)
+  },
+} as const;

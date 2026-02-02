@@ -6,6 +6,7 @@ import {
   type WeatherResponse,
   type WeatherForecastResponse,
   type HourlyWeather,
+  // 💡 여기에 SearchLocationResponse가 없다면 아래 인터페이스를 다시 살려야 합니다.
 } from '../model/types';
 
 interface SearchLocationResponse {
@@ -17,12 +18,6 @@ interface SearchLocationResponse {
   state?: string;
 }
 
-const ENDPOINTS = {
-  WEATHER: '/data/2.5/weather',
-  FORECAST: '/data/2.5/forecast',
-  GEO: '/geo/1.0/direct',
-} as const;
-
 const openWeatherClient = createBaseClient({
   baseURL: import.meta.env.VITE_OPENWEATHER_BASE_URL,
   params: {
@@ -30,7 +25,46 @@ const openWeatherClient = createBaseClient({
   },
 });
 
-/** * 현재 날씨 매퍼
+export const weatherApi = {
+  fetchByCoords: async (lat: number, lon: number): Promise<WeatherData> => {
+    const { data } = await openWeatherClient.get<WeatherResponse>(CONSTANTS.ENDPOINTS.WEATHER, {
+      params: {
+        lat,
+        lon,
+        ...CONSTANTS.DEFAULT_PARAMS,
+      },
+    });
+
+    return mapWeatherResponse(data);
+  },
+
+  fetchForecast: async (lat: number, lon: number): Promise<HourlyWeather[]> => {
+    const { data } = await openWeatherClient.get<WeatherForecastResponse>(CONSTANTS.ENDPOINTS.FORECAST, {
+      params: {
+        lat,
+        lon,
+        ...CONSTANTS.DEFAULT_PARAMS,
+      },
+    });
+
+    return mapForecastResponse(data);
+  },
+
+  searchLocations: async (query: string): Promise<BaseLocation[]> => {
+    const searchQuery = query.includes(CONSTANTS.CONFIG.KR_SUFFIX) ? query : `${query}${CONSTANTS.CONFIG.KR_SUFFIX}`;
+
+    const { data } = await openWeatherClient.get<SearchLocationResponse[]>(CONSTANTS.ENDPOINTS.GEO, {
+      params: {
+        q: searchQuery,
+      },
+    });
+
+    return mapSearchResponse(data);
+  },
+};
+
+/**
+ * 💡 매퍼 함수들 (하단 배치)
  */
 const mapWeatherResponse = (data: WeatherResponse): WeatherData => {
   const weatherDetail = data.weather?.[0];
@@ -48,8 +82,6 @@ const mapWeatherResponse = (data: WeatherResponse): WeatherData => {
   };
 };
 
-/** * 💡 시간대별 예보 매퍼 추가
- */
 const mapForecastResponse = (data: WeatherForecastResponse): HourlyWeather[] => {
   return data.list.map((item) => ({
     dt: item.dt,
@@ -59,8 +91,6 @@ const mapForecastResponse = (data: WeatherForecastResponse): HourlyWeather[] => 
   }));
 };
 
-/** * 위치 검색 매퍼
- */
 const mapSearchResponse = (data: SearchLocationResponse[]): BaseLocation[] => {
   return data.map((item) => ({
     id: `${item.lat}-${item.lon}`,
@@ -73,45 +103,17 @@ const mapSearchResponse = (data: SearchLocationResponse[]): BaseLocation[] => {
   }));
 };
 
-export const weatherApi = {
-  /** 현재 날씨 조회 */
-  fetchByCoords: async (lat: number, lon: number): Promise<WeatherData> => {
-    const { data } = await openWeatherClient.get<WeatherResponse>(ENDPOINTS.WEATHER, {
-      params: {
-        lat,
-        lon,
-        units: 'metric',
-        lang: 'kr',
-      },
-    });
-
-    return mapWeatherResponse(data);
+const CONSTANTS = {
+  ENDPOINTS: {
+    WEATHER: '/data/2.5/weather',
+    FORECAST: '/data/2.5/forecast',
+    GEO: '/geo/1.0/direct',
   },
-
-  /**  시간대별 예보 조회 추가 */
-  fetchForecast: async (lat: number, lon: number): Promise<HourlyWeather[]> => {
-    const { data } = await openWeatherClient.get<WeatherForecastResponse>(ENDPOINTS.FORECAST, {
-      params: {
-        lat,
-        lon,
-        units: 'metric',
-        lang: 'kr',
-      },
-    });
-
-    return mapForecastResponse(data);
+  DEFAULT_PARAMS: {
+    units: 'metric',
+    lang: 'kr',
   },
-
-  /** 위치 검색 */
-  searchLocations: async (query: string): Promise<BaseLocation[]> => {
-    const searchQuery = query.includes(',KR') ? query : `${query},KR`;
-
-    const { data } = await openWeatherClient.get<SearchLocationResponse[]>(ENDPOINTS.GEO, {
-      params: {
-        q: searchQuery,
-      },
-    });
-
-    return mapSearchResponse(data);
+  CONFIG: {
+    KR_SUFFIX: ',KR',
   },
-};
+} as const;

@@ -19,8 +19,10 @@ export const FavoriteLocationList = ({ onSelect, currentLocation }: Props) => {
     <section className="space-y-8">
       <div className="flex items-center justify-between px-[0.4rem]">
         <h2 className="text-[1.8rem] font-bold">
-          나의 즐겨찾기
-          <span className="text-toss-blue ml-2">{favorites.length}/6</span>
+          {CONSTANTS.TEXT.TITLE}
+          <span className="text-toss-blue ml-2">
+            {favorites.length}/{CONSTANTS.CONFIG.MAX_COUNT}
+          </span>
         </h2>
       </div>
 
@@ -35,7 +37,7 @@ export const FavoriteLocationList = ({ onSelect, currentLocation }: Props) => {
               isSelected={isSelected}
               onClick={() => onSelect(fav.payload)}
               editAction={
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className={CONSTANTS.STYLE.EDIT_ACTION_WRAPPER}>
                   <EditNicknameButton
                     id={fav.id}
                     currentNickname={fav.payload.nickname || fav.payload.name}
@@ -43,7 +45,9 @@ export const FavoriteLocationList = ({ onSelect, currentLocation }: Props) => {
                   />
                 </div>
               }
-              deleteAction={<ToggleFavoriteButton location={fav.payload} showText={false} />}
+              deleteAction={
+                <ToggleFavoriteButton location={fav.payload} showText={CONSTANTS.CONFIG.SHOW_DELETE_TEXT} />
+              }
             />
           );
         })}
@@ -51,3 +55,19 @@ export const FavoriteLocationList = ({ onSelect, currentLocation }: Props) => {
     </section>
   );
 };
+
+/**
+ * 💡 하단 통합 상수 관리
+ */
+const CONSTANTS = {
+  TEXT: {
+    TITLE: '나의 즐겨찾기',
+  },
+  CONFIG: {
+    MAX_COUNT: 6,
+    SHOW_DELETE_TEXT: false,
+  },
+  STYLE: {
+    EDIT_ACTION_WRAPPER: 'opacity-0 group-hover:opacity-100 transition-opacity',
+  },
+} as const;

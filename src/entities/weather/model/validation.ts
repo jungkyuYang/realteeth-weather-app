@@ -15,7 +15,6 @@ export const isValidCoords = (lat?: number | null, lon?: number | null): boolean
 
   // 3. 범위 확인 (도메인 규칙: 위도 -90~90, 경도 -180~180)
   const isLatValid = lat >= -90 && lat <= 90;
-
   const isLonValid = lon >= -180 && lon <= 180;
 
   return isLatValid && isLonValid;

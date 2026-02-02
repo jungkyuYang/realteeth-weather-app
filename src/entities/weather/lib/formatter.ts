@@ -1,13 +1,8 @@
-/**
- * OpenWeatherMap 아이콘 URL 생성
- */
 export const getWeatherIconUrl = (iconCode: string, size: '2x' | '4x' | '' = '') => {
   const suffix = size ? `@${size}` : '';
 
   const fileName = `${iconCode}${suffix}.webp`;
 
-  // public 폴더에 있는 파일은 루트(/) 경로로 바로 접근 가능합니다.
-  // 이 방식은 Base64로 변환되지 않고 실제 정적 파일 URL을 반환합니다.
   return `/weather/${fileName}`;
 };
 

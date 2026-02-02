@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useQuery, keepPreviousData, useQueryClient } from '@tanstack/react-query'; // useQueryClient 추가
+import { useQuery, keepPreviousData, useQueryClient } from '@tanstack/react-query';
 
 import { ERROR_MESSAGES } from '@/shared/constants/constants';
 
@@ -9,12 +9,9 @@ import { type LocationData } from './types';
 import { isGeolocationSupported } from './validation';
 import { locationApi } from '../api/locationApi';
 
-const FIVE_MINUTES = 1000 * 60 * 5;
-
-const THIRTY_MINUTES = 1000 * 60 * 30;
-
-const SESSION_STORAGE_KEY = 'weather_app_last_location_v1';
-
+/**
+ * 💡 핵심 로직: 현재 위치 정보 관리 커스텀 훅
+ */
 export const useLocation = () => {
   const queryClient = useQueryClient();
 
@@ -23,28 +20,22 @@ export const useLocation = () => {
     queryFn: () => locationApi.fetchCurrent(),
     enabled: isGeolocationSupported(),
     placeholderData: keepPreviousData,
-    staleTime: FIVE_MINUTES,
-    gcTime: THIRTY_MINUTES,
+    staleTime: CONSTANTS.STALE_TIME,
+    gcTime: CONSTANTS.GC_TIME,
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: 'always',
-    initialData: () => {
-      try {
-        const saved = sessionStorage.getItem(SESSION_STORAGE_KEY);
-
-        return saved ? JSON.parse(saved) : undefined;
-      } catch {
-        return undefined;
-      }
-    },
+    initialData: getInitialLocation,
   });
 
+  // 데이터 변경 시 SessionStorage 업데이트
   useEffect(() => {
     if (query.data) {
-      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(query.data));
+      sessionStorage.setItem(CONSTANTS.STORAGE_KEY, JSON.stringify(query.data));
     }
   }, [query.data]);
 
+  // 위치 권한 변경 감지 및 자동 갱신 로직
   useEffect(() => {
     let permissionStatus: PermissionStatus | null = null;
 
@@ -81,3 +72,22 @@ export const useLocation = () => {
     refresh: () => query.refetch(),
   };
 };
+
+/**
+ * SessionStorage에서 이전 위치 정보를 안전하게 복원
+ */
+function getInitialLocation(): LocationData | undefined {
+  try {
+    const saved = sessionStorage.getItem(CONSTANTS.STORAGE_KEY);
+
+    return saved ? JSON.parse(saved) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const CONSTANTS = {
+  STALE_TIME: 1000 * 60 * 5, // 5분
+  GC_TIME: 1000 * 60 * 30, // 30분
+  STORAGE_KEY: 'weather_app_last_location_v1',
+} as const;

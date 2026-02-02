@@ -20,39 +20,18 @@ import { FavoriteLocationList } from '@/widgets/favorite-location/ui/FavoriteLoc
 import { HomeHeader } from '@/widgets/header/ui/HomeHeader';
 import { LocationSearch, type LocationSearchHandle } from '@/widgets/search-location/ui/LocationSearch';
 
-/**
- * 💡 1. 페이지 내부 상수 분리
- */
-const SEOUL_COORDS = { lat: 37.5665, lon: 126.978 };
-
-const UI_TEXT = {
-  TITLE_CURRENT: '현재 위치 날씨',
-  TITLE_SELECTED: '선택한 지역 날씨',
-  LABEL_DETAIL: '자세히 보기',
-  FAVORITE_SECTION: '즐겨찾는 지역',
-  DEFAULT_NAME: '현재 위치',
-  TOAST_GPS_ERROR: '위치 권한을 확인해 주세요',
-  TOAST_GPS_DESC: '권한 허용이 필요합니다.',
-  TOAST_GPS_SUCCESS: '현재 위치로 업데이트되었습니다.',
-} as const;
-
 const HomePage = () => {
   const navigate = useNavigate();
-
   const searchRef = useRef<LocationSearchHandle>(null);
-
   const [isPending, startTransition] = useTransition();
-
   const overlay = useOverlay();
 
   const { lat: geoLat, lon: geoLon, refresh, isError } = useLocation();
-
   const [selectedLocation, setSelectedLocation] = useState<BaseLocation | null>(null);
 
-  const targetLat = selectedLocation?.lat ?? geoLat ?? SEOUL_COORDS.lat;
-
-  const targetLon = selectedLocation?.lon ?? geoLon ?? SEOUL_COORDS.lon;
-
+  // 💡 하단 CONSTANTS 객체 참조
+  const targetLat = selectedLocation?.lat ?? geoLat ?? CONSTANTS.COORDS.SEOUL.lat;
+  const targetLon = selectedLocation?.lon ?? geoLon ?? CONSTANTS.COORDS.SEOUL.lon;
   const cacheKey = `${targetLat}-${targetLon}`;
 
   const handleNavigateToDetail = (lat: number, lon: number, name?: string) => {
@@ -68,26 +47,26 @@ const HomePage = () => {
   const handleActivateGPS = async () => {
     startTransition(() => setSelectedLocation(null));
     const result = await refresh();
+
     if (result.isError || isError) {
-      toast.error(UI_TEXT.TOAST_GPS_ERROR, {
-        description: UI_TEXT.TOAST_GPS_DESC,
+      toast.error(CONSTANTS.TEXT.TOAST_GPS_ERROR, {
+        description: CONSTANTS.TEXT.TOAST_GPS_DESC,
       });
     } else {
-      toast.success(UI_TEXT.TOAST_GPS_SUCCESS);
+      toast.success(CONSTANTS.TEXT.TOAST_GPS_SUCCESS);
     }
   };
 
   const handleOpenSelector = () => {
     overlay.open(({ isOpen, close }) => (
-      // 아까 작성한 Dialog 공통 컴포넌트를 활용하면 베스트입니다!
       <Dialog open={isOpen} onOpenChange={close}>
         <DialogContent className="max-w-180">
           <DistrictSelector
             onConfirm={(addr) => {
-              close(); // 성공 시 오버레이 닫기
+              close();
               searchRef.current?.search(addr);
             }}
-            onClose={close} // 취소 시 오버레이 닫기
+            onClose={close}
           />
         </DialogContent>
       </Dialog>
@@ -104,24 +83,24 @@ const HomePage = () => {
       />
 
       <main className="px-6 py-8 space-y-16 max-w-240 mx-auto animate-in fade-in duration-500">
-        {/* [TOP] 지역 검색 섹션 */}
+        {/* 지역 검색 섹션 */}
         <section className="space-y-6">
           <LocationSearch ref={searchRef} onSelect={handleSelectLocation} onOpenSelector={handleOpenSelector} />
         </section>
 
-        {/* [MIDDLE] 현재 날씨 정보 섹션 */}
+        {/* 현재 날씨 정보 섹션 */}
         <section className="space-y-6">
           <div className="flex justify-between items-end px-2">
             <h3 className="text-[1.8rem] font-bold">
-              {selectedLocation ? UI_TEXT.TITLE_SELECTED : UI_TEXT.TITLE_CURRENT}
+              {selectedLocation ? CONSTANTS.TEXT.TITLE_SELECTED : CONSTANTS.TEXT.TITLE_CURRENT}
             </h3>
             <button
               onClick={() =>
-                handleNavigateToDetail(targetLat, targetLon, selectedLocation?.name || UI_TEXT.DEFAULT_NAME)
+                handleNavigateToDetail(targetLat, targetLon, selectedLocation?.name || CONSTANTS.TEXT.DEFAULT_NAME)
               }
               className="flex items-center gap-1 text-toss-blue text-toss-btn font-bold hover:opacity-70 transition-opacity"
             >
-              {UI_TEXT.LABEL_DETAIL}
+              {CONSTANTS.TEXT.LABEL_DETAIL}
               <ChevronRight size={16} strokeWidth={3} />
             </button>
           </div>
@@ -145,9 +124,9 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* [BOTTOM] 즐겨찾기 섹션 */}
+        {/* 즐겨찾기 섹션 */}
         <section className="pt-10 border-t border-toss-grey dark:border-white/5 space-y-8">
-          <h3 className="text-[1.8rem] font-bold px-2">{UI_TEXT.FAVORITE_SECTION}</h3>
+          <h3 className="text-[1.8rem] font-bold px-2">{CONSTANTS.TEXT.FAVORITE_SECTION}</h3>
           <FavoriteLocationList
             onSelect={(loc) => loc && handleNavigateToDetail(loc.lat, loc.lon, loc.name)}
             currentLocation={selectedLocation}
@@ -159,3 +138,19 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+const CONSTANTS = {
+  COORDS: {
+    SEOUL: { lat: 37.5665, lon: 126.978 },
+  },
+  TEXT: {
+    TITLE_CURRENT: '현재 위치 날씨',
+    TITLE_SELECTED: '선택한 지역 날씨',
+    LABEL_DETAIL: '자세히 보기',
+    FAVORITE_SECTION: '즐겨찾는 지역',
+    DEFAULT_NAME: '현재 위치',
+    TOAST_GPS_ERROR: '위치 권한을 확인해 주세요',
+    TOAST_GPS_DESC: '권한 허용이 필요합니다.',
+    TOAST_GPS_SUCCESS: '현재 위치로 업데이트되었습니다.',
+  },
+} as const;

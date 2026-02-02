@@ -3,8 +3,6 @@ import { useFavorite } from '@/entities/location-favorite/model/useLocationFavor
 import { toast } from '@/shared/lib/store/useToastStore';
 import { type BaseLocation } from '@/shared/types/location';
 
-import { TOGGLE_FAVORITE_CONSTANTS } from './constants';
-
 export const useToggleFavorite = () => {
   const { favorites, save, remove, isSaving } = useFavorite();
 
@@ -22,10 +20,10 @@ export const useToggleFavorite = () => {
 
     if (existing) {
       await remove(existing.id);
-      toast.info(TOGGLE_FAVORITE_CONSTANTS.MESSAGES.REMOVED);
+      toast.info(CONSTANTS.MESSAGES.REMOVED);
     } else {
-      if (favorites.length >= TOGGLE_FAVORITE_CONSTANTS.CONFIG.MAX_COUNT) {
-        toast.error(TOGGLE_FAVORITE_CONSTANTS.MESSAGES.LIMIT_EXCEEDED(TOGGLE_FAVORITE_CONSTANTS.CONFIG.MAX_COUNT));
+      if (favorites.length >= CONSTANTS.CONFIG.MAX_COUNT) {
+        toast.error(CONSTANTS.MESSAGES.LIMIT_EXCEEDED(CONSTANTS.CONFIG.MAX_COUNT));
 
         return;
       }
@@ -43,7 +41,7 @@ export const useToggleFavorite = () => {
       };
 
       await save([...favorites, newFavorite]);
-      toast.success(TOGGLE_FAVORITE_CONSTANTS.MESSAGES.ADDED);
+      toast.success(CONSTANTS.MESSAGES.ADDED);
     }
   };
 
@@ -55,3 +53,14 @@ export const useToggleFavorite = () => {
     isSaving,
   };
 };
+
+export const CONSTANTS = {
+  CONFIG: {
+    MAX_COUNT: 6,
+  },
+  MESSAGES: {
+    LIMIT_EXCEEDED: (max: number) => `최대 ${max}개까지만 등록 가능합니다.`,
+    ADDED: '즐겨찾기에 추가되었습니다.',
+    REMOVED: '즐겨찾기에서 제거되었습니다.',
+  },
+} as const;

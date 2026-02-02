@@ -21,7 +21,6 @@ export const locationFavoriteApi = {
 
   remove: async (id: string): Promise<void> => {
     const favorites = await locationFavoriteApi.get();
-
     const filtered = favorites.filter((item) => item.id !== id);
     await locationFavoriteApi.save(filtered);
   },

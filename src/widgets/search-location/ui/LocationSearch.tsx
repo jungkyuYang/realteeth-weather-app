@@ -86,7 +86,9 @@ export const LocationSearch = forwardRef<LocationSearchHandle, Props>(function L
               </div>
             ) : (
               !isSearching && (
-                <div className="py-20 text-center opacity-40 text-[1.6rem] font-bold">"{input}" 결과가 없어요</div>
+                <div className="py-20 text-center opacity-40 text-[1.6rem] font-bold">
+                  "{input}" 해당 장소의 정보가 제공되지 않습니다.
+                </div>
               )
             )}
             {isSearching && (

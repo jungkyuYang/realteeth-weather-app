@@ -15,7 +15,7 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
         'text-toss-text-main placeholder:text-toss-text-sub/50 selection:bg-toss-blue/20',
 
         /* 3. 파일 업로드 등 기타 상태 */
-        'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-[1.4rem] file:font-medium',
+        'file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-toss-btn file:font-medium',
         'disabled:pointer-events-none disabled:opacity-50',
 
         /* 4. 포커스 시 링 컬러: toss-blue/30으로 일관성 유지 */

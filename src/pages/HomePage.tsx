@@ -46,7 +46,6 @@ const HomePage = () => {
 
   const targetLat = selectedLocation?.lat ?? geoLat ?? SEOUL_COORDS.lat;
   const targetLon = selectedLocation?.lon ?? geoLon ?? SEOUL_COORDS.lon;
-  // 💡 좌표 기반 캐시 키 (리렌더링 및 에러 바운더리 초기화 최적화)
   const cacheKey = `${targetLat}-${targetLon}`;
 
   const handleNavigateToDetail = (lat: number, lon: number, name?: string) => {

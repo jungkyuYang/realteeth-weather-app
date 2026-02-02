@@ -85,8 +85,12 @@ export const CurrentWeatherCard = ({ lat, lon }: { lat: number; lon: number }) =
         onClick={() => refresh()}
         className="absolute top-8 right-8 p-3 rounded-full hover:bg-toss-grey transition-all active:scale-90 z-10"
         disabled={isRefreshing}
+        aria-label="날씨 정보 새로고침"
       >
-        <RefreshCw className={cn('size-8 text-toss-grey-400', isRefreshing && 'animate-spin text-toss-blue')} />
+        <RefreshCw
+          className={cn('size-8 text-toss-grey-400', isRefreshing && 'animate-spin text-toss-blue')}
+          aria-hidden="true"
+        />
       </button>
 
       <div className="flex flex-col h-full justify-between animate-in fade-in duration-700">

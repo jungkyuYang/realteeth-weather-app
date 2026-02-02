@@ -1,20 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>weather-app</title>
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.webp" />
+    <link rel="manifest" href="/site.webmanifest" />
     
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Real Weather - 내 손안의 실시간 날씨 예보</title>
+    <meta name="description" content="현재 위치 기반 실시간 날씨와 즐겨찾는 지역의 예보를 토스 스타일의 깔끔한 디자인으로 확인하세요." />
+    <meta name="keywords" content="날씨, 날씨예보, 실시간날씨, 기상청, 토스날씨, 일기예보" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://your-site-name.netlify.app" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Toss Weather" />
+    <meta property="og:title" content="Toss Weather - 깔끔한 실시간 날씨 예보" />
+    <meta property="og:description" content="한눈에 들어오는 날씨 정보, 지금 바로 확인해보세요." />
+    <meta property="og:image" content="/og-image.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://your-site-name.netlify.app" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Toss Weather - 실시간 날씨 예보" />
+    <meta name="twitter:description" content="정확한 날씨 정보를 깔끔한 디자인으로 확인하세요." />
+    <meta name="twitter:image" content="/og-image.webp" />
+
     <link rel="preconnect" href="https://openweathermap.org" />
     <link rel="dns-prefetch" href="https://openweathermap.org" />
-
     <link rel="preconnect" href="https://api.openweathermap.org" />
     <link rel="dns-prefetch" href="https://api.openweathermap.org" />
 
     <link rel="preload" href="/fonts/Pretendard-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/fonts/Pretendard-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="preload" href="/fonts/Pretendard-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
     <script>
       (function () {
         const theme = localStorage.getItem('theme');
@@ -25,7 +47,6 @@
         }
       })();
     </script>
-   
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+
+# 사이트맵 위치 알림 (실제 배포된 URL로 수정하세요)
+Sitemap: https://realteeth-weather-app.netlify.app

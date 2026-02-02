@@ -3,7 +3,11 @@
  */
 export const getWeatherIconUrl = (iconCode: string, size: '2x' | '4x' | '' = '') => {
   const suffix = size ? `@${size}` : '';
-  return `https://openweathermap.org/img/wn/${iconCode}${suffix}.png`;
+  const fileName = `${iconCode}${suffix}.webp`;
+
+  // Vite에서 자산을 동적으로 가져오는 표준 방식입니다.
+  // 이 경로는 실제 파일이 위치한 src/shared/assets/weather를 가리켜야 합니다.
+  return new URL(`../../../shared/assets/weather/${fileName}`, import.meta.url).href;
 };
 
 /**

@@ -21,7 +21,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    sourcemap: true,
+    sourcemap: 'hidden',
     assetsInlineLimit: 20480,
     cssCodeSplit: true, // CSS를 기능별로 쪼개서 초기 로딩 방해 최소화
     modulePreload: {

@@ -1,8 +1,9 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider as ReactRouterProvider } from 'react-router';
 import { RootLayout } from '../layouts/root-layout';
 import NotFoundPage from '@/pages/error/not-found';
 import HomePage from '@/pages/HomePage';
+import { PageLoader } from '@/shared/ui/PageLoader';
 
 const LocationDetailPage = lazy(() => import('@/pages/LocationDetailPage'));
 
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'detail/:lat/:lon',
-        element: <LocationDetailPage />,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <LocationDetailPage />
+          </Suspense>
+        ),
       },
     ],
   },

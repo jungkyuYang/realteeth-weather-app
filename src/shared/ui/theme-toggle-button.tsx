@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Moon, Sun } from 'lucide-react';
+import Moon from 'lucide-react/dist/esm/icons/moon';
+import Sun from 'lucide-react/dist/esm/icons/sun';
 import { Button } from './button';
 import { toggleDarkMode } from '@/shared/lib/theme';
 

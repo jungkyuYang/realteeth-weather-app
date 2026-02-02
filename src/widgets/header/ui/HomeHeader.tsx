@@ -1,4 +1,7 @@
-import { MapPin, X, LocateFixed, Locate } from 'lucide-react';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import X from 'lucide-react/dist/esm/icons/x';
+import LocateFixed from 'lucide-react/dist/esm/icons/locate-fixed';
+import Locate from 'lucide-react/dist/esm/icons/locate';
 import { type BaseLocation } from '@/shared/types/location';
 import { cn } from '@/shared/lib/utils';
 

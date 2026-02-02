@@ -1,4 +1,4 @@
-import { Pencil } from 'lucide-react';
+import Pencil from 'lucide-react/dist/esm/icons/pencil';
 import { EditableTextDialog } from '@/shared/ui/EditableTextDialog';
 import { useUpdateNickname } from '../model/useUpdateNickname';
 

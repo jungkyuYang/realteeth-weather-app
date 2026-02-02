@@ -1,5 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { Search, MapPin, ChevronRight } from 'lucide-react';
+import Search from 'lucide-react/dist/esm/icons/search';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 import { Input } from '@/shared/ui/input';
 import { useSearchLocation } from '@/features/search-location/model/useSearchLocation';
 import { ToggleFavoriteButton } from '@/features/toggle-favorite/ui/ToggleFavoriteButton';

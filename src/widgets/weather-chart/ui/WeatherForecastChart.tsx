@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { X } from 'lucide-react'; // 에러 아이콘 추가
+import X from 'lucide-react/dist/esm/icons/x'; // 에러 아이콘 추가
 import { useWeather } from '@/entities/weather/model/useWeather';
 import { cn } from '@/shared/lib/utils';
 

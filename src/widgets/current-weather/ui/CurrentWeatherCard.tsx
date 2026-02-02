@@ -1,6 +1,7 @@
 import { useWeather } from '@/entities/weather';
 import { formatHour, getWeatherIconUrl } from '@/entities/weather/lib/formatter';
-import { X, RefreshCw } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
 import { cn } from '@/shared/lib/utils';
 import { Skeleton } from '@/shared/ui/skeleton';
 

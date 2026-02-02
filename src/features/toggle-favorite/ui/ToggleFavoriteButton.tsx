@@ -1,5 +1,5 @@
 import { Button } from '@/shared/ui/button';
-import { Star } from 'lucide-react';
+import Star from 'lucide-react/dist/esm/icons/star';
 import { useToggleFavorite } from '../model/useToggleFavorite';
 import { type BaseLocation } from '@/shared/types/location';
 import { cn } from '@/shared/lib/utils';

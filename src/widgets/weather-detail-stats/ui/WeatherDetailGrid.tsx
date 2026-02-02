@@ -1,4 +1,8 @@
-import { Wind, Droplets, Thermometer, Eye, X } from 'lucide-react';
+import Wind from 'lucide-react/dist/esm/icons/wind';
+import Droplets from 'lucide-react/dist/esm/icons/droplets';
+import Thermometer from 'lucide-react/dist/esm/icons/thermometer';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import X from 'lucide-react/dist/esm/icons/x';
 import { useWeather } from '@/entities/weather/model/useWeather';
 import { DetailStatCard } from '@/entities/weather/ui/DetailStatCard';
 import { cn } from '@/shared/lib/utils';

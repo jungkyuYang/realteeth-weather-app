@@ -2,7 +2,7 @@ import { useState, useRef, Suspense, useTransition } from 'react';
 import { useNavigate } from 'react-router';
 import { ErrorBoundary } from 'react-error-boundary';
 import { toast } from 'sonner';
-import { ChevronRight } from 'lucide-react';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 
 import { useLocation } from '@/entities/location/model/useLocation';
 import { HomeHeader } from '@/widgets/header/ui/HomeHeader';
